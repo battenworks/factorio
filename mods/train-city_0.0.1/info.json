@@ -1,0 +1,9 @@
+{
+    "name": "train-city",
+    "version": "0.0.1",
+    "title": "Train City",
+    "author": "battenworks",
+    "factorio_version": "1.1",
+    "dependencies": ["base >= 1.1"],
+    "description": "Provides for a city grid with trains for transportation."
+  }
