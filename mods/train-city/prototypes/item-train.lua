@@ -1,23 +1,18 @@
-local prototype_name = "tc-item-train"
+require("prototypes.entity")
+require("prototypes.item")
+require("prototypes.recipe")
 
-local entity = table.deepcopy(data.raw["locomotive"]["locomotive"])
-entity.name = prototype_name
-entity.localised_name = {"entity-name." .. prototype_name}
+local name = "tc-item-train"
 
-local item = table.deepcopy(data.raw["item-with-entity-data"]["locomotive"])
-item.name = prototype_name
-item.localised_name = {"item-name." .. prototype_name}
+local entity = create_entity(name, "locomotive", "locomotive")
 
-local recipe = table.deepcopy(data.raw["recipe"]["locomotive"])
-recipe.name = prototype_name
-recipe.localised_name = {"recipe-name." .. prototype_name}
-recipe.enabled = true
-recipe.ingredients = {
+local item = create_item(name, "item-with-entity-data", "locomotive")
+
+local ingredients = {
 	{"locomotive", 1},
 	{"advanced-circuit", 2}
 }
-recipe.placeresult = prototype_name
-recipe.result = prototype_name
+local recipe = create_recipe(name, "locomotive", ingredients, true)
 
 data:extend{
   entity,
