@@ -42,3 +42,4 @@ luac.out
 install*
 uninstall*
 data.raw
+.vscode/
