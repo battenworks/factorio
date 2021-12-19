@@ -1,2 +1,3 @@
-require("prototypes.train")
-require("prototypes.train-station")
+require("prototypes.item-train")
+require("prototypes.item-train-station")
+require("prototypes.transportation-train")

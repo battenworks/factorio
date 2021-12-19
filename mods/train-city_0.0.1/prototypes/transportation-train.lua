@@ -1,18 +1,23 @@
+local NAME = "tc-transportation-train"
+
 local entity = table.deepcopy(data.raw["locomotive"]["locomotive"])
-entity.name = "tc-item-train"
+entity.name = NAME
+entity.localised_name = {"entity-name." .. NAME}
 
 local item = table.deepcopy(data.raw["item-with-entity-data"]["locomotive"])
-item.name = entity.name
+item.name = NAME
+item.localised_name = {"item-name." .. NAME}
 
 local recipe = table.deepcopy(data.raw["recipe"]["locomotive"])
-recipe.name = entity.name
+recipe.name = NAME
+recipe.localised_name = {"recipe-name." .. NAME}
 recipe.enabled = true
 recipe.ingredients = {
 	{"locomotive", 1},
-	{"advanced-circuit", 2}
+	{"nuclear-fuel", 3}
 }
-recipe.placeresult = item.name
-recipe.result = item.name
+recipe.placeresult = NAME
+recipe.result = NAME
 
 data:extend{
   entity,
