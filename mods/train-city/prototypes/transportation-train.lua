@@ -22,7 +22,7 @@ recipe.ingredients = {
 recipe.enabled = true
 
 data:extend{
-  entity,
+	entity,
 	item,
 	recipe
 }
