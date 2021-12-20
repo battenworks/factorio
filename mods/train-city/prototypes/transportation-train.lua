@@ -5,6 +5,7 @@ require("prototypes.recipe")
 local name = "tc-transportation-train"
 
 local entity = create_entity(name, "locomotive", "locomotive")
+entity.burner = nil
 
 local item = create_item(name, "item-with-entity-data", "locomotive")
 item.icons = {
@@ -17,7 +18,7 @@ item.icons = {
 local recipe = create_recipe(name, "locomotive")
 recipe.ingredients = {
 	{"locomotive", 1},
-	{"nuclear-fuel", 3}
+	{"nuclear-fuel", 1}
 }
 recipe.enabled = true
 
