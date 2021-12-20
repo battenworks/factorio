@@ -7,6 +7,7 @@ local name = "tc-transportation-train"
 local entity = create_entity(name, "locomotive", "locomotive")
 entity.burner = nil
 entity.energy_source = {type = "void"}
+entity.max_power = "666kW"
 
 local item = create_item(name, "item-with-entity-data", "locomotive")
 item.icons = {
