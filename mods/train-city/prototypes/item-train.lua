@@ -7,12 +7,7 @@ local name = "tc-item-train"
 local entity = create_entity(name, "locomotive", "locomotive")
 
 local item = create_item(name, "item-with-entity-data", "locomotive")
-item.icons = {
-	{
-		icon = "__train-city__/graphics/item-train.png",
-		icon_size = 64
-	}
-}
+item.icon = "__train-city__/graphics/item-train.png"
 
 local recipe = create_recipe(name, "locomotive")
 recipe.ingredients = {

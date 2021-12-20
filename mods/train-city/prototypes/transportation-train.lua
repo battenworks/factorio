@@ -10,12 +10,7 @@ entity.energy_source = {type = "void"}
 entity.max_power = "666kW"
 
 local item = create_item(name, "item-with-entity-data", "locomotive")
-item.icons = {
-	{
-		icon = "__train-city__/graphics/transportation-train.png",
-		icon_size = 64
-	}
-}
+item.icon = "__train-city__/graphics/transportation-train.png"
 
 local recipe = create_recipe(name, "locomotive")
 recipe.ingredients = {
