@@ -6,6 +6,7 @@ local name = "tc-transportation-train"
 
 local entity = create_entity(name, "locomotive", "locomotive")
 entity.burner = nil
+entity.color = {42, 255, 0}
 entity.energy_source = {type = "void"}
 entity.max_power = "666kW"
 

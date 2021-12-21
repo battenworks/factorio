@@ -5,6 +5,7 @@ require("prototypes.recipe")
 local name = "tc-item-train"
 
 local entity = create_entity(name, "locomotive", "locomotive")
+entity.color = {42, 0, 255}
 
 local item = create_item(name, "item-with-entity-data", "locomotive")
 item.icon = "__train-city__/graphics/item-train.png"
