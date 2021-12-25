@@ -8,7 +8,8 @@ local entity = create_entity(name, "locomotive", "locomotive")
 entity.burner = nil
 entity.color = {42, 255, 0}
 entity.energy_source = {type = "void"}
-entity.max_power = "666kW"
+entity.equipment_grid = nil
+entity.max_power = "1210kW"
 
 local item = create_item(name, "item-with-entity-data", "locomotive")
 item.icon = "__train-city__/graphics/transportation-train.png"
