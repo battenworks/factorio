@@ -2,7 +2,7 @@ require("prototypes.entity")
 require("prototypes.item")
 require("prototypes.recipe")
 
-local name = "tc-transportation-train"
+local name = "bwtc-transportation-train"
 
 local entity = create_entity(name, "locomotive", "locomotive")
 entity.burner = nil
