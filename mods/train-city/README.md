@@ -10,3 +10,6 @@ What could it do?
 - [ ] On a change event of item 'deliver the items you currently have, and then go load the new items and remain on the new schedule'.
 - [ ] UI that allows us to see metrics/state of item trains and add/remove trains from that item route.
 - [ ] Allow an item type to be selectable while editing individual trains.
+- [ ] Make trains smart enough to stop for fuel only when they need to.
+- [ ] Make fuel stations configurable from one place.
+- [ ] Make ammo stations configurable from one place.
