@@ -65,7 +65,7 @@ item_trains_window = {
 		tabbed_pane.add_tab(ammo_tab, ammo_label)
 	end,
 
-	toggle = function (player)
+	toggle = function(player)
 		local global_player = get_global_player(player)
 		local main_frame_foo = global_player.elements.main_item_trains_window
 
