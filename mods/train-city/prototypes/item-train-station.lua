@@ -12,7 +12,7 @@ item.icon = "__train-city__/graphics/item-train-station.png"
 local recipe = create_recipe(name, "train-stop")
 recipe.ingredients = {
 	{"train-stop", 1},
-	{"advanced-circuit", 2}
+	{"advanced-circuit", 2},
 }
 recipe.enabled = true
 

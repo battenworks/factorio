@@ -17,7 +17,7 @@ item.icon = "__train-city__/graphics/transportation-train.png"
 local recipe = create_recipe(name, "locomotive")
 recipe.ingredients = {
 	{"locomotive", 1},
-	{"nuclear-fuel", 1}
+	{"nuclear-fuel", 1},
 }
 recipe.enabled = true
 
