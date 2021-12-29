@@ -1,76 +1,7 @@
-local function get_global_player(player)
-	return global.bwtc_players[player.index]
-end
+require("ui.item_trains_window")
 
 local function initialize_global_player(player)
 	global.bwtc_players[player.index] = { elements = {} }
-end
-
-local function build_interface(player)
-	local player_global = get_global_player(player)
-
-	local screen_element = player.gui.screen
-	local main_frame = screen_element.add{
-		type = "frame",
-		name = "bwtc_main_frame",
-		caption = { "bwtc.hello_world" }
-	}
-	main_frame.style.size = { 400, 200 }
-	main_frame.auto_center = true
-
-	player.opened = main_frame
-	player_global.elements.main_frame = main_frame
-
-	local content_frame = main_frame.add{
-		type = "frame",
-		name = "bwtc-content-frame",
-		direction = "vertical",
-		style = "bwtc_content_frame"
-	}
-	local item_table = content_frame.add{
-		type = "table",
-		name = "bwtc-item-table",
-		column_count = 4
-	}
-	local card = item_table.add{
-		type = "flow",
-		name = "bwtc-item-card",
-		direction = "vertical",
-		style = "bwtc_item_card"
-	}
-	card.add{
-		type = "sprite-button",
-		sprite = ("item/iron-ore"),
-		tags = { item_name = "iron-ore" }
-	}
-	card.add{
-		type = "label",
-		caption = "# of trains"
-	}
-	card.add{
-		type = "label",
-		caption = "# of trains fueling"
-	}
-	card.add{
-		type = "label",
-		caption = "# of load stations"
-	}
-	card.add{
-		type = "label",
-		caption = "# of unload stations"
-	}
-end
-
-local function toggle_interface(player)
-	local player_global = get_global_player(player)
-	local main_frame = player_global.elements.main_frame
-
-	if main_frame == nil then
-		build_interface(player)
-	else
-		main_frame.destroy()
-		player_global.elements = {}
-	end
 end
 
 script.on_init(
@@ -87,10 +18,7 @@ script.on_configuration_changed(
 	function(config_changed_data)
 		if config_changed_data.mod_changes["train-city"] then
 			for _, player in pairs(game.players) do
-				local player_global = get_global_player(player)
-				if player_global.elements.main_frame ~= nil then
-					toggle_interface(player)
-				end
+				item_trains_window.clear(player)
 			end
 		end
 	end
@@ -98,8 +26,7 @@ script.on_configuration_changed(
 
 script.on_event(defines.events.on_player_created,
 	function(event)
-		local player = game.get_player(event.player_index)
-		initialize_global_player(player)
+		initialize_global_player(game.get_player(event.player_index))
 	end
 )
 
@@ -109,9 +36,16 @@ script.on_event(defines.events.on_player_removed,
 	end
 )
 
-script.on_event("bwtc_toggle_main_window",
+script.on_event("toggle_item_trains_window",
 	function(event)
-		local player = game.get_player(event.player_index)
-		toggle_interface(player)
+		item_trains_window.toggle(game.get_player(event.player_index))
+	end
+)
+
+script.on_event(defines.events.on_gui_closed,
+	function(event)
+		if event.element and event.element.name == item_trains_window.name then
+			item_trains_window.toggle(game.get_player(event.player_index))
+		end
 	end
 )
