@@ -6,7 +6,7 @@ local name = "bwtc-transportation-train"
 
 local entity = create_entity(name, "locomotive", "locomotive")
 entity.burner = nil
-entity.color = {42, 255, 0}
+entity.color = {0.2, 1, 0, 0.5}
 entity.energy_source = {type = "void"}
 entity.equipment_grid = nil
 entity.max_power = "1210kW"
