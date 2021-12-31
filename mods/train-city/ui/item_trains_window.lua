@@ -11,7 +11,12 @@ local name = "bwtc_main_window"
 item_trains_window = {
 	name = name,
 
-	new =	function(player, global_player, items)
+	new =	function (player, global_player, items)
+		
+		-- for i, proto in pairs(game.entity_prototypes) do
+		-- 	log(i)
+		-- end
+
 		local screen_element = player.gui.screen
 		local main_window = screen_element.add{
 			type = "frame",
@@ -65,8 +70,9 @@ item_trains_window = {
 		tabbed_pane.add_tab(ammo_tab, ammo_label)
 	end,
 
-	toggle = function(player)
+	toggle = function (player)
 		local global_player = get_global_player(player)
+		-- TODO: rename variable below
 		local main_frame_foo = global_player.elements.main_item_trains_window
 
 		if main_frame_foo == nil then
@@ -77,7 +83,7 @@ item_trains_window = {
 		end
 	end,
 
-	clear = function(player)
+	clear = function (player)
 		local global_player = get_global_player(player)
 
 		if global_player.elements.main_item_trains_window ~= nil then
@@ -85,3 +91,5 @@ item_trains_window = {
 		end
 	end
 }
+
+-- TODO: rename this to item_trains_dashboard.lua?

@@ -17,9 +17,6 @@ recipe.ingredients = {
 }
 recipe.enabled = true
 
--- local gui = create_gui(name)
--- gui
-
 data:extend{
 	entity,
 	item,

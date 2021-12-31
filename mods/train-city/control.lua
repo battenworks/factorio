@@ -1,4 +1,5 @@
 require("ui.item_trains_window")
+require("ui.item_train_station")
 
 local function initialize_global_player(player)
 	global.bwtc_players[player.index] = { elements = {} }
@@ -46,6 +47,16 @@ script.on_event(defines.events.on_gui_closed,
 	function(event)
 		if event.element and event.element.name == item_trains_window.name then
 			item_trains_window.toggle(game.get_player(event.player_index))
+		elseif event.element and event.element.name == item_train_station.name then
+			item_train_station.toggle(game.get_player(event.player_index))
+		end
+	end
+)
+
+script.on_event(defines.events.on_gui_opened,
+	function(event)
+		if event.gui_type == defines.gui_type.entity and event.entity.name == "bwtc-item-train-station" then
+			item_train_station.toggle(game.get_player(event.player_index))
 		end
 	end
 )

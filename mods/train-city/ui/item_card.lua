@@ -1,5 +1,5 @@
 item_card = {
-	add_card_to_table = function(item, item_table)
+	add_card_to_table = function (item, item_table)
 		local card_frame = item_table.add{
 			type = "frame",
 			direction = "vertical",
