@@ -6,8 +6,8 @@ local name = "bwtc-transportation-train"
 
 local entity = create_entity(name, "locomotive", "locomotive")
 entity.burner = nil
-entity.color = {0.2, 1, 0, 0.5}
-entity.energy_source = {type = "void"}
+entity.color = { 0.2, 1, 0, 0.5 }
+entity.energy_source = { type = "void" }
 entity.equipment_grid = nil
 entity.max_power = "1210kW"
 
@@ -16,8 +16,8 @@ item.icon = "__train-city__/graphics/transportation-train.png"
 
 local recipe = create_recipe(name, "locomotive")
 recipe.ingredients = {
-	{"locomotive", 1},
-	{"nuclear-fuel", 1},
+	{ "locomotive", 1 },
+	{ "nuclear-fuel", 1 },
 }
 recipe.enabled = true
 
