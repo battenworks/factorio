@@ -1,9 +1,8 @@
 local styles = data.raw["gui-style"].default
 
-styles["bwtc_item_scroll_pane"] = {
-	type = "scroll_pane_style",
-	padding = 10,
-	vertically_stretchable = "on",
+styles["bwtc_dashboard"] = {
+	type = "frame_style",
+	size = { 950, 600 }
 }
 
 styles["bwtc_item_card_header"] = {
@@ -38,7 +37,7 @@ styles["bwtc_item_card_train_label"] = {
 	top_margin = 5,
 }
 
-styles["bwtc_item_station"] = {
+styles["bwtc_item_station_gui"] = {
 	type = "frame_style",
 	use_header_filler = false,
 	horizontally_stretchable = "on",

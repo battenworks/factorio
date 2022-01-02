@@ -10,13 +10,12 @@ item_train_station = {
 	selected_direction_control = direction_switch_name,
 
 	new = function (player, global_player, entity)
-		local main_window = player.gui.screen.add{
+		local main_window = player.gui.center.add{
 			type = "frame",
 			name = window_name,
 			caption = "Item train station",
-			style = "bwtc_item_station",
+			style = "bwtc_item_station_gui",
 		}
-		main_window.auto_center = true
 
 		player.opened = main_window
 		global_player.elements.item_train_station_gui = main_window
@@ -35,7 +34,7 @@ item_train_station = {
 		}
 		selected_item_container.add{
 			type = "label",
-			caption = "Item:",
+			caption = "Item",
 		}
 		selected_item_container.add{
 			type = "choose-elem-button",
@@ -63,12 +62,12 @@ item_train_station = {
 
 	toggle = function (player, entity)
 		local global_player = global_player.get(player)
-		local gui = global_player.elements.item_train_station_gui
+		local global_gui = global_player.elements.item_train_station_gui
 
-		if gui == nil then
+		if global_gui == nil then
 			item_train_station.new(player, global_player, entity)
 		else
-			gui.destroy()
+			global_gui.destroy()
 			global_player.elements = {}
 			global_player.entities = {}
 		end
@@ -84,10 +83,11 @@ item_train_station = {
 
 	configure_train_station = function (player)
 		local global_player = global_player.get(player)
-		local gui = global_player.elements.item_train_station_gui
-		local item = gui.main_container.selected_item_container[choose_elem_button_name].elem_value
-		local switch = gui.main_container.selected_direction_container[direction_switch_name].switch_state
-		local direction = switch == "left" and "drop" or "load"
+		local global_gui = global_player.elements.item_train_station_gui
+		local selected_item = global_gui.main_container.selected_item_container[choose_elem_button_name].elem_value
+		local item = selected_item or "none"
+		local selected_direction = global_gui.main_container.selected_direction_container[direction_switch_name].switch_state
+		local direction = selected_direction == "left" and "drop" or "load"
 
 		global_player.entities.item_train_station_entity.backer_name = item .. " " .. direction
 	end
