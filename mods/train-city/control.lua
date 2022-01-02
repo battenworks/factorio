@@ -1,5 +1,5 @@
 require("ui.dashboard")
-require("ui.item_train_station")
+require("ui.item_station")
 
 local function initialize_global_player(player)
 	global.item_trains[player.index] = { elements = {}, entities = {} }
@@ -47,8 +47,8 @@ script.on_event(defines.events.on_gui_opened,
 	function (event)
 		local player = game.get_player(event.player_index)
 
-		if event.gui_type == defines.gui_type.entity and event.entity.name == "bwtc-item-train-station" then
-			item_train_station.toggle(player, event.entity)
+		if event.gui_type == defines.gui_type.entity and event.entity.name == "bwtc-item-station" then
+			item_station.toggle(player, event.entity)
 		end
 	end
 )
@@ -59,8 +59,8 @@ script.on_event(defines.events.on_gui_closed,
 
 		if event.element and event.element.name == dashboard.name then
 			dashboard.toggle(player)
-		elseif event.element and event.element.name == item_train_station.name then
-			item_train_station.toggle(player)
+		elseif event.element and event.element.name == item_station.name then
+			item_station.toggle(player)
 		end
 	end
 )
@@ -69,8 +69,8 @@ script.on_event(defines.events.on_gui_elem_changed,
 	function (event)
 		local player = game.get_player(event.player_index)
 
-		if event.element and event.element.name == item_train_station.selected_item_control then
-			item_train_station.configure_train_station(player)
+		if event.element and event.element.name == item_station.selected_item_control then
+			item_station.configure_train_station(player)
 		end
 	end
 )
@@ -79,8 +79,8 @@ script.on_event(defines.events.on_gui_switch_state_changed,
 	function (event)
 		local player = game.get_player(event.player_index)
 
-		if event.element and event.element.name == item_train_station.selected_direction_control then
-			item_train_station.configure_train_station(player)
+		if event.element and event.element.name == item_station.selected_direction_control then
+			item_station.configure_train_station(player)
 		end
 	end
 )

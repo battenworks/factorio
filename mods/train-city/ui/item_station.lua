@@ -1,10 +1,10 @@
 require("common")
 
-local window_name = "bwtc_item_train_station_gui"
-local choose_elem_button_name = "bwtc_item_train_station_selected_item"
-local direction_switch_name = "bwtc_item_train_station_direction_switch"
+local window_name = "bwtc_item_station_gui"
+local choose_elem_button_name = "bwtc_item_station_selected_item"
+local direction_switch_name = "bwtc_item_station_direction_switch"
 
-item_train_station = {
+item_station = {
 	name = window_name,
 	selected_item_control = choose_elem_button_name,
 	selected_direction_control = direction_switch_name,
@@ -13,13 +13,13 @@ item_train_station = {
 		local main_window = player.gui.center.add{
 			type = "frame",
 			name = window_name,
-			caption = "Item train station",
+			caption = { "entity-name.bwtc-item-station" },
 			style = "bwtc_item_station_gui",
 		}
 
 		player.opened = main_window
-		global_player.elements.item_train_station_gui = main_window
-		global_player.entities.item_train_station_entity = entity
+		global_player.elements.item_station_gui = main_window
+		global_player.entities.item_station_entity = entity
 
 		local main_container = main_window.add{
 			type = "frame",
@@ -34,7 +34,7 @@ item_train_station = {
 		}
 		selected_item_container.add{
 			type = "label",
-			caption = "Item",
+			caption = { "item-station-item-container-caption" },
 		}
 		selected_item_container.add{
 			type = "choose-elem-button",
@@ -48,7 +48,7 @@ item_train_station = {
 		}
 		selected_direction_container.add{
 			type = "label",
-			caption = "Drop",
+			caption = { "item-station-direction-label-drop-caption" },
 		}
 		selected_direction_container.add{
 			type = "switch",
@@ -56,16 +56,16 @@ item_train_station = {
 		}
 		selected_direction_container.add{
 			type = "label",
-			caption = "Load",
+			caption = { "item-station-direction-label-load-caption" },
 		}
 	end,
 
 	toggle = function (player, entity)
 		local global_player = global_player.get(player)
-		local global_gui = global_player.elements.item_train_station_gui
+		local global_gui = global_player.elements.item_station_gui
 
 		if global_gui == nil then
-			item_train_station.new(player, global_player, entity)
+			item_station.new(player, global_player, entity)
 		else
 			global_gui.destroy()
 			global_player.elements = {}
@@ -76,19 +76,19 @@ item_train_station = {
 	clear = function (player)
 		local global_player = global_player.get(player)
 
-		if global_player.elements.item_train_station_gui ~= nil then
-			item_train_station.toggle(player)
+		if global_player.elements.item_station_gui ~= nil then
+			item_station.toggle(player)
 		end
 	end,
 
 	configure_train_station = function (player)
 		local global_player = global_player.get(player)
-		local global_gui = global_player.elements.item_train_station_gui
+		local global_gui = global_player.elements.item_station_gui
 		local selected_item = global_gui.main_container.selected_item_container[choose_elem_button_name].elem_value
 		local item = selected_item or "none"
 		local selected_direction = global_gui.main_container.selected_direction_container[direction_switch_name].switch_state
 		local direction = selected_direction == "left" and "drop" or "load"
 
-		global_player.entities.item_train_station_entity.backer_name = item .. " " .. direction
+		global_player.entities.item_station_entity.backer_name = item .. " " .. direction
 	end
 }
