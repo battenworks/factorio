@@ -6,35 +6,33 @@ local function get_global_player(player)
 	return global.item_trains[player.index]
 end
 
-local name = "bwtc_main_window"
+local name = "bwtc_dashboard"
 
-item_trains_window = {
+dashboard = {
 	name = name,
 
 	new =	function (player, global_player, items)
-		
+
 		-- for i, proto in pairs(game.entity_prototypes) do
 		-- 	log(i)
 		-- end
 
-		local screen_element = player.gui.screen
-		local main_window = screen_element.add{
+		local main_window = player.gui.center.add{
 			type = "frame",
 			name = name,
-			caption = { "bwtc.main-window-caption" },
+			caption = { "bwtc.dashboard-caption" },
+			style = "bwtc_dashboard",
 		}
-		main_window.auto_center = true
-		main_window.style.size = { 950, 600 }
 
 		player.opened = main_window
-		global_player.elements.main_item_trains_window = main_window
+		global_player.elements.item_trains_dashboard = main_window
 
 		local tabbed_pane = main_window.add{
 			type = "tabbed-pane",
 		}
 		local item_tab = tabbed_pane.add{
 			type = "tab",
-			caption = { "bwtc.item-tab-caption" },
+			caption = { "bwtc.dashboard-item-tab-caption" },
 		}
 		local item_scroll_pane = tabbed_pane.add{
 			type = "scroll-pane",
@@ -51,7 +49,7 @@ item_trains_window = {
 
 		local fuel_tab = tabbed_pane.add{
 			type = "tab",
-			caption = { "bwtc.fuel-tab-caption" },
+			caption = { "bwtc.dashboard-fuel-tab-caption" },
 		}
 		local fuel_label = tabbed_pane.add{
 			type = "label",
@@ -59,7 +57,7 @@ item_trains_window = {
 		}
 		local ammo_tab = tabbed_pane.add{
 			type = "tab",
-			caption = { "bwtc.ammo-tab-caption" },
+			caption = { "bwtc.dashboard-ammo-tab-caption" },
 		}
 		local ammo_label = tabbed_pane.add{
 			type = "label",
@@ -72,13 +70,12 @@ item_trains_window = {
 
 	toggle = function (player)
 		local global_player = get_global_player(player)
-		-- TODO: rename variable below
-		local main_frame_foo = global_player.elements.main_item_trains_window
+		local global_dashboard = global_player.elements.item_trains_dashboard
 
-		if main_frame_foo == nil then
-			item_trains_window.new(player, global_player, items)
+		if global_dashboard == nil then
+			dashboard.new(player, global_player, items)
 		else
-			main_frame_foo.destroy()
+			global_dashboard.destroy()
 			global_player.elements = {}
 		end
 	end,
@@ -86,10 +83,8 @@ item_trains_window = {
 	clear = function (player)
 		local global_player = get_global_player(player)
 
-		if global_player.elements.main_item_trains_window ~= nil then
-			item_trains_window.toggle(player)
+		if global_player.elements.item_trains_dashboard ~= nil then
+			dashboard.toggle(player)
 		end
 	end
 }
-
--- TODO: rename this to item_trains_dashboard.lua?

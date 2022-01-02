@@ -6,7 +6,7 @@ require("ui.styles")
 data:extend({
 	{
 		type = "custom-input",
-		name = "toggle_item_trains_window",
+		name = "toggle_dashboard",
 		key_sequence = "ALT + T",
 		order = "a",
 	}
