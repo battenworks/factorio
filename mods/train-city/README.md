@@ -6,7 +6,7 @@ Inspiration from this thread: https://forums.factorio.com/viewtopic.php?f=80&t=5
 
 What could it do?
 - [x] Train type that transports players around the city.
-- [x] Train stations that are associated with items, and name themselves properly.
+- [x] Train stations that are associated with items, to automatically name themselves.
 - [ ] Trains that are associated with items, to automatically set schedules/routes.
 - [ ] On a change event of item 'deliver the items you currently have, and then go load the new items and remain on the new schedule'.
 - [ ] UI that allows us to see metrics/state of item trains and add/remove trains from that item route.
