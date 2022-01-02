@@ -1,43 +1,94 @@
-local function get_global_player(player)
-	return global.bwtc_players[player.index]
-end
+require("common")
 
-local name = "bwtc_item_train_station_window"
+local window_name = "bwtc_item_train_station_gui"
+local choose_elem_button_name = "bwtc_item_train_station_selected_item"
+local direction_switch_name = "bwtc_item_train_station_direction_switch"
 
 item_train_station = {
-	name = name,
+	name = window_name,
+	selected_item_control = choose_elem_button_name,
+	selected_direction_control = direction_switch_name,
 
-	new = function (player, global_player)
+	new = function (player, global_player, entity)
 		local main_window = player.gui.screen.add{
 			type = "frame",
-			name = name,
-			caption = "Item train stop",
+			name = window_name,
+			caption = "Item train station",
+			style = "bwtc_item_station",
 		}
-		main_window.style.size = { 400, 300 }
 		main_window.auto_center = true
 
 		player.opened = main_window
-		global_player.elements.item_train_station_window = main_window
+		global_player.elements.item_train_station_gui = main_window
+		global_player.entities.item_train_station_entity = entity
+
+		local main_container = main_window.add{
+			type = "frame",
+			name = "main_container",
+			direction = "vertical",
+			style = "inside_shallow_frame_with_padding",
+		}
+		local selected_item_container = main_container.add{
+			type = "flow",
+			name = "selected_item_container",
+			direction = "horizontal",
+		}
+		selected_item_container.add{
+			type = "label",
+			caption = "Item:",
+		}
+		selected_item_container.add{
+			type = "choose-elem-button",
+			name = choose_elem_button_name,
+			elem_type = "item",
+		}
+		local selected_direction_container = main_container.add{
+			type = "flow",
+			name = "selected_direction_container",
+			direction = "horizontal",
+		}
+		selected_direction_container.add{
+			type = "label",
+			caption = "Drop",
+		}
+		selected_direction_container.add{
+			type = "switch",
+			name = direction_switch_name,
+		}
+		selected_direction_container.add{
+			type = "label",
+			caption = "Load",
+		}
 	end,
 
-	toggle = function (player)
-		local global_player = get_global_player(player) -- TODO: function is duplicated in item_trains_window.lua
-		-- TODO: rename variable below
-		local item_train_station_frame = global_player.elements.item_train_station_window
+	toggle = function (player, entity)
+		local global_player = global_player.get(player)
+		local gui = global_player.elements.item_train_station_gui
 
-		if item_train_station_frame == nil then
-			item_train_station.new(player, global_player)
+		if gui == nil then
+			item_train_station.new(player, global_player, entity)
 		else
-			item_train_station_frame.destroy()
+			gui.destroy()
 			global_player.elements = {}
+			global_player.entities = {}
 		end
 	end,
 
 	clear = function (player)
-		local global_player = get_global_player(player)
+		local global_player = global_player.get(player)
 
-		if global_player.elements.item_train_station_window ~= nil then
+		if global_player.elements.item_train_station_gui ~= nil then
 			item_train_station.toggle(player)
 		end
+	end,
+
+	configure_train_station = function (player)
+		local global_player = global_player.get(player)
+		local gui = global_player.elements.item_train_station_gui
+		local item = gui.main_container.selected_item_container[choose_elem_button_name].elem_value
+		local switch = gui.main_container.selected_direction_container[direction_switch_name].switch_state
+		local direction = switch == "left" and "drop" or "load"
+
+		global_player.entities.item_train_station_entity.backer_name = item .. " " .. direction
 	end
 }

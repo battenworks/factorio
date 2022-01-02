@@ -37,3 +37,10 @@ styles["bwtc_item_card_train_label"] = {
 	type = "label_style",
 	top_margin = 5,
 }
+
+styles["bwtc_item_station"] = {
+	type = "frame_style",
+	use_header_filler = false,
+	horizontally_stretchable = "on",
+	vertically_stretchable = "on",
+}

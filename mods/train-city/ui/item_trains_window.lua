@@ -3,7 +3,7 @@ require("ui.item_card")
 local items = {"iron-ore", "copper-ore", "coal", "stone", "iron-plate" ,"copper-plate"}
 
 local function get_global_player(player)
-	return global.bwtc_players[player.index]
+	return global.item_trains[player.index]
 end
 
 local name = "bwtc_main_window"
@@ -23,8 +23,8 @@ item_trains_window = {
 			name = name,
 			caption = { "bwtc.main-window-caption" },
 		}
-		main_window.style.size = { 950, 600 }
 		main_window.auto_center = true
+		main_window.style.size = { 950, 600 }
 
 		player.opened = main_window
 		global_player.elements.main_item_trains_window = main_window
