@@ -37,7 +37,7 @@ styles["bwtc_item_card_train_label"] = {
 	top_margin = 5,
 }
 
-styles["bwtc_item_station_gui"] = {
+styles["bwtc_gui_main_window"] = {
 	type = "frame_style",
 	use_header_filler = false,
 	horizontally_stretchable = "on",

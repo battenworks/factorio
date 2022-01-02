@@ -1,5 +1,6 @@
 require("ui.dashboard")
 require("ui.item_station")
+require("ui.item_train")
 
 local function initialize_global_player(player)
 	global.item_trains[player.index] = { elements = {}, entities = {} }
@@ -20,6 +21,8 @@ script.on_configuration_changed(
 		if config_changed_data.mod_changes["train-city"] then
 			for _, player in pairs(game.players) do
 				dashboard.clear(player)
+				item_station.clear(player)
+				item_train.clear(player)
 			end
 		end
 	end
@@ -47,8 +50,13 @@ script.on_event(defines.events.on_gui_opened,
 	function (event)
 		local player = game.get_player(event.player_index)
 
-		if event.gui_type == defines.gui_type.entity and event.entity.name == "bwtc-item-station" then
-			item_station.toggle(player, event.entity)
+		if event.gui_type == defines.gui_type.entity and event.entity then
+			player.print(event.entity.name)
+			if event.entity.name == "bwtc-item-station" then
+				item_station.toggle(player, event.entity)
+			elseif event.entity.name == "bwtc-item-train" then
+				item_train.toggle(player, event.entity)
+			end
 		end
 	end
 )
@@ -57,10 +65,14 @@ script.on_event(defines.events.on_gui_closed,
 	function (event)
 		local player = game.get_player(event.player_index)
 
-		if event.element and event.element.name == dashboard.name then
-			dashboard.toggle(player)
-		elseif event.element and event.element.name == item_station.name then
-			item_station.toggle(player)
+		if event.element then
+			if event.element.name == dashboard.name then
+				dashboard.toggle(player)
+			elseif event.element.name == item_station.name then
+				item_station.toggle(player)
+			elseif event.element.name == item_train.name then
+				item_train.toggle(player)
+			end
 		end
 	end
 )
@@ -69,8 +81,12 @@ script.on_event(defines.events.on_gui_elem_changed,
 	function (event)
 		local player = game.get_player(event.player_index)
 
-		if event.element and event.element.name == item_station.selected_item_control then
-			item_station.configure_train_station(player)
+		if event.element then
+			if event.element.name == item_station.selected_item_control then
+				item_station.configure_train_station(player)
+			elseif event.element.name == item_train.selected_item_control then
+				item_train.configure_train(player)
+			end
 		end
 	end
 )

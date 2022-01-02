@@ -14,7 +14,7 @@ item_station = {
 			type = "frame",
 			name = window_name,
 			caption = { "entity-name.bwtc-item-station" },
-			style = "bwtc_item_station_gui",
+			style = "bwtc_gui_main_window",
 		}
 
 		player.opened = main_window
@@ -34,7 +34,7 @@ item_station = {
 		}
 		selected_item_container.add{
 			type = "label",
-			caption = { "item-station-selected-item-label-caption" },
+			caption = { "bwtc.item-station-selected-item-label-caption" },
 		}
 		selected_item_container.add{
 			type = "choose-elem-button",
@@ -48,7 +48,7 @@ item_station = {
 		}
 		selected_direction_container.add{
 			type = "label",
-			caption = { "item-station-selected-direction-label-drop-caption" },
+			caption = { "bwtc.item-station-selected-direction-label-drop-caption" },
 		}
 		selected_direction_container.add{
 			type = "switch",
@@ -56,7 +56,7 @@ item_station = {
 		}
 		selected_direction_container.add{
 			type = "label",
-			caption = { "item-station-selected-direction-label-load-caption" },
+			caption = { "bwtc.item-station-selected-direction-label-load-caption" },
 		}
 	end,
 
