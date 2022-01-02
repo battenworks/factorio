@@ -34,7 +34,7 @@ item_station = {
 		}
 		selected_item_container.add{
 			type = "label",
-			caption = { "item-station-item-container-caption" },
+			caption = { "item-station-selected-item-label-caption" },
 		}
 		selected_item_container.add{
 			type = "choose-elem-button",
@@ -48,7 +48,7 @@ item_station = {
 		}
 		selected_direction_container.add{
 			type = "label",
-			caption = { "item-station-direction-label-drop-caption" },
+			caption = { "item-station-selected-direction-label-drop-caption" },
 		}
 		selected_direction_container.add{
 			type = "switch",
@@ -56,7 +56,7 @@ item_station = {
 		}
 		selected_direction_container.add{
 			type = "label",
-			caption = { "item-station-direction-label-load-caption" },
+			caption = { "item-station-selected-direction-label-load-caption" },
 		}
 	end,
 
