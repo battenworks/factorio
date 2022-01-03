@@ -43,3 +43,14 @@ styles["bwtc_gui_main_window"] = {
 	horizontally_stretchable = "on",
 	vertically_stretchable = "on",
 }
+
+styles["bwtc_item_station_selected_item_container"] = {
+	type = "horizontal_flow_style",
+	bottom_margin = 5,
+	vertical_align = "center",
+}
+
+styles["bwtc_item_station_selected_direction_container"] = {
+	type = "horizontal_flow_style",
+	vertical_align = "center",
+}
