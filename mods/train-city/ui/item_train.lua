@@ -17,7 +17,7 @@ item_train = {
 
 		player.opened = main_window
 		global_player.elements.item_train_gui = main_window
-		global_player.entities.item_train_entity = entity
+		global_player.entities.item_train_entity = entity.train
 
 		local main_container = main_window.add{
 			type = "frame",
@@ -67,8 +67,59 @@ item_train = {
 		local global_gui = global_player.elements.item_train_gui
 		local selected_item = global_gui.main_container.selected_item_container[choose_elem_button_name].elem_value
 		local item = selected_item or "none"
-		
-		player.print("configure schedule for item: " .. item)
-		-- global_player.entities.item_train_entity.backer_name = item .. " " .. direction
+
+		local full_wait_condition = {
+			type = "full",
+			compare_type = "or"
+		}
+		local empty_wait_condition = {
+			type = "empty",
+			compare_type = "or"
+		}
+		local inactivity_wait_condition = {
+			type = "inactivity",
+			ticks = 5,
+			compare_type = "or"
+		}
+		local time_wait_condition = {
+			type = "time",
+			ticks = 1,
+			compare_type = "or"
+		}
+		local schedule = {
+			current = 1,
+			records = {
+				{
+					station = item .. " load",
+					wait_conditions = {
+						full_wait_condition,
+						inactivity_wait_condition
+					}
+				},
+				{
+					station = "fuel",
+					wait_conditions = { time_wait_condition }
+				},
+				{
+					station = item .. " drop",
+					wait_conditions = {
+						empty_wait_condition,
+						inactivity_wait_condition
+					}
+				},
+				{
+					station = "fuel",
+					wait_conditions = { time_wait_condition }
+				}
+			}
+		}
+
+		local train = global_player.entities.item_train_entity
+		train.schedule = schedule
+		train.manual_mode = false
+
+		if train.locomotives["front_movers"][1].burner.inventory.is_empty() then
+			train.locomotives["front_movers"][1].burner.inventory.insert("rocket-fuel")
+		end
 	end
 }

@@ -51,7 +51,6 @@ script.on_event(defines.events.on_gui_opened,
 		local player = game.get_player(event.player_index)
 
 		if event.gui_type == defines.gui_type.entity and event.entity then
-			player.print(event.entity.name)
 			if event.entity.name == "bwtc-item-station" then
 				item_station.toggle(player, event.entity)
 			elseif event.entity.name == "bwtc-item-train" then
