@@ -3,11 +3,25 @@ require("common")
 local window_name = "bwtc_item_train_gui"
 local choose_elem_button_name = "bwtc_item_train_selected_item"
 
+local function parse_station_name(station_name)
+	local words = {}
+
+	for word in string.gmatch(station_name, "%S+") do
+		table.insert(words, word)
+	end
+
+	local selected_item = game.item_prototypes[words[1]] and words[1] or nil
+
+	return selected_item
+end
+
 item_train = {
 	name = window_name,
 	selected_item_control = choose_elem_button_name,
 
 	new = function (player, global_player, entity)
+		local selected_item = parse_station_name(entity.train.schedule.records[1].station)
+
 		local main_window = player.gui.center.add{
 			type = "frame",
 			name = window_name,
@@ -34,11 +48,12 @@ item_train = {
 			type = "label",
 			caption = { "bwtc.item-train-selected-item-label-caption" },
 		}
-		selected_item_container.add{
+		local choose_item_button = selected_item_container.add{
 			type = "choose-elem-button",
 			name = choose_elem_button_name,
 			elem_type = "item",
 		}
+		choose_item_button.elem_value = selected_item
 	end,
 
 	toggle = function (player, entity)
