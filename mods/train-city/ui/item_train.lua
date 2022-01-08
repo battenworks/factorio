@@ -19,8 +19,27 @@ item_train = {
 	name = window_name,
 	selected_item_control = choose_elem_button_name,
 
+	render_station_list = function (container, schedule)
+		container.clear()
+		local station_list = container.add{
+			type = "table",
+			column_count = 1,
+		}
+		for _, record in pairs(schedule.records) do
+			station_list.add{
+				type = "label",
+				caption = record.station,
+				style = "bwtc_item_train_station_line_item",
+			}
+		end
+	end,
+
 	new = function (player, global_player, entity)
-		local selected_item = parse_station_name(entity.train.schedule.records[1].station)
+		if entity.train.schedule then
+			selected_item = parse_station_name(entity.train.schedule.records[1].station)
+		else
+			selected_item = nil
+		end
 
 		local main_window = player.gui.center.add{
 			type = "frame",
@@ -37,16 +56,17 @@ item_train = {
 			type = "frame",
 			name = "main_container",
 			direction = "vertical",
-			style = "inside_shallow_frame_with_padding",
+			style = "inside_shallow_frame",
 		}
 		local selected_item_container = main_container.add{
 			type = "flow",
 			name = "selected_item_container",
 			direction = "horizontal",
+			style = "bwtc_item_train_selected_item_container",
 		}
 		selected_item_container.add{
 			type = "label",
-			caption = { "bwtc.item-train-selected-item-label-caption" },
+			caption = { "bwtc.item-caption" },
 		}
 		local choose_item_button = selected_item_container.add{
 			type = "choose-elem-button",
@@ -54,6 +74,31 @@ item_train = {
 			elem_type = "item",
 		}
 		choose_item_button.elem_value = selected_item
+		local station_header = main_container.add{
+			type = "frame",
+			name = "station_header",
+			direction = "horizontal",
+			style = "bwtc_item_train_station_header",
+		}
+		station_header.add{
+			type = "label",
+			caption = { "bwtc.stations-caption" },
+			style = "bwtc_item_train_station_header_label",
+		}
+		local station_list_container = main_container.add{
+			type = "frame",
+			name = "station_list_container",
+			direction = "vertical",
+			style = "inside_shallow_frame_with_padding",
+		}
+		if entity.train.schedule then
+			item_train.render_station_list(station_list_container, entity.train.schedule)
+		else
+			station_list_container.add{
+				type = "label",
+				caption = "None",
+			}
+		end
 	end,
 
 	toggle = function (player, entity)
@@ -93,12 +138,12 @@ item_train = {
 		}
 		local inactivity_wait_condition = {
 			type = "inactivity",
-			ticks = 5,
+			ticks = 5 * 60,
 			compare_type = "or"
 		}
 		local time_wait_condition = {
 			type = "time",
-			ticks = 1,
+			ticks = 1 * 60,
 			compare_type = "or"
 		}
 		local schedule = {
@@ -108,26 +153,32 @@ item_train = {
 					station = item .. " load",
 					wait_conditions = {
 						full_wait_condition,
-						inactivity_wait_condition
+						inactivity_wait_condition,
 					}
 				},
 				{
 					station = "fuel",
-					wait_conditions = { time_wait_condition }
+					wait_conditions = {
+						time_wait_condition,
+					}
 				},
 				{
 					station = item .. " drop",
 					wait_conditions = {
 						empty_wait_condition,
-						inactivity_wait_condition
+						inactivity_wait_condition,
 					}
 				},
 				{
 					station = "fuel",
-					wait_conditions = { time_wait_condition }
-				}
+					wait_conditions = {
+						time_wait_condition,
+					}
+				},
 			}
 		}
+
+		item_train.render_station_list(global_gui.main_container.station_list_container, schedule)
 
 		local train = global_player.entities.item_train_entity
 		train.schedule = schedule

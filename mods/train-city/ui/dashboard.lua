@@ -20,7 +20,7 @@ dashboard = {
 		local main_window = player.gui.center.add{
 			type = "frame",
 			name = name,
-			caption = { "bwtc.dashboard-caption" },
+			caption = { "bwtc.item-trains-caption" },
 			style = "bwtc_dashboard",
 		}
 
@@ -32,7 +32,7 @@ dashboard = {
 		}
 		local item_tab = tabbed_pane.add{
 			type = "tab",
-			caption = { "bwtc.dashboard-item-tab-caption" },
+			caption = { "bwtc.items-caption" },
 		}
 		local item_scroll_pane = tabbed_pane.add{
 			type = "scroll-pane",
@@ -49,7 +49,7 @@ dashboard = {
 
 		local fuel_tab = tabbed_pane.add{
 			type = "tab",
-			caption = { "bwtc.dashboard-fuel-tab-caption" },
+			caption = { "bwtc.fuel-caption" },
 		}
 		local fuel_label = tabbed_pane.add{
 			type = "label",
@@ -57,7 +57,7 @@ dashboard = {
 		}
 		local ammo_tab = tabbed_pane.add{
 			type = "tab",
-			caption = { "bwtc.dashboard-ammo-tab-caption" },
+			caption = { "bwtc.ammo-caption" },
 		}
 		local ammo_label = tabbed_pane.add{
 			type = "label",

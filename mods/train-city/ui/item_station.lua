@@ -50,7 +50,7 @@ item_station = {
 		}
 		selected_item_container.add{
 			type = "label",
-			caption = { "bwtc.item-station-selected-item-label-caption" },
+			caption = { "bwtc.item-caption" },
 		}
 		local choose_item_button = selected_item_container.add{
 			type = "choose-elem-button",
@@ -66,7 +66,7 @@ item_station = {
 		}
 		selected_direction_container.add{
 			type = "label",
-			caption = { "bwtc.item-station-selected-direction-label-drop-caption" },
+			caption = { "bwtc.drop-caption" },
 		}
 		selected_direction_container.add{
 			type = "switch",
@@ -75,7 +75,7 @@ item_station = {
 		}
 		selected_direction_container.add{
 			type = "label",
-			caption = { "bwtc.item-station-selected-direction-label-load-caption" },
+			caption = { "bwtc.load-caption" },
 		}
 
 	end,

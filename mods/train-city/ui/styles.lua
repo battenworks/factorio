@@ -54,3 +54,25 @@ styles["bwtc_item_station_selected_direction_container"] = {
 	type = "horizontal_flow_style",
 	vertical_align = "center",
 }
+
+styles["bwtc_item_train_selected_item_container"] = {
+	type = "horizontal_flow_style",
+	margin = 12,
+	vertical_align = "center",
+}
+
+styles["bwtc_item_train_station_header"] = {
+	type = "frame_style",
+	bottom_padding = 5,
+	horizontally_stretchable = "on",
+}
+
+styles["bwtc_item_train_station_header_label"] = {
+	type = "label_style",
+	left_margin = 5,
+}
+
+styles["bwtc_item_train_station_line_item"] = {
+	type = "label_style",
+	left_margin = 15,
+}
