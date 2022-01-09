@@ -13,6 +13,7 @@ entity.max_power = "1210kW"
 
 local item = create_item(name, "item-with-entity-data", "locomotive")
 item.icon = "__train-city__/graphics/transportation-train.png"
+item.stack_size = 1
 
 local recipe = create_recipe(name, "locomotive")
 recipe.ingredients = {

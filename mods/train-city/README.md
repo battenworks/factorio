@@ -18,3 +18,6 @@ What could it do?
 - [ ] Make trains smart enough to stop for fuel only when they need to.
 - [ ] Make fuel stations configurable from one place.
 - [ ] Make ammo stations configurable from one place.
+- [ ] Role switcher for player to easily choose inventory by role (terraforming, infrastructure, pods, etc.)
+- [ ] Enable/disable stations based on their selected item.
+- [x] Make transportation-train stack size = 1.
