@@ -16,10 +16,10 @@ item_card = {
 		}
 		sprite_button_container.add{
 			type = "sprite-button",
-			sprite = ("item/" .. item),
+			sprite = ("item/" .. item.name),
 			tags = {
 				action = "show_item_card_detail",
-				item = item,
+				item = item.name,
 			}
 		}
 		local station_label_container = card_header.add{

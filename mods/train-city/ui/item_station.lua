@@ -1,4 +1,4 @@
-require("common")
+require("ui.common")
 
 local window_name = "bwtc_item_station_gui"
 local choose_elem_button_name = "bwtc_item_station_selected_item"

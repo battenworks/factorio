@@ -1,22 +1,26 @@
+require("ui.common")
 require("ui.item_card")
-
-local items = {"iron-ore", "copper-ore", "coal", "stone", "iron-plate" ,"copper-plate"}
-
-local function get_global_player(player)
-	return global.item_trains[player.index]
-end
 
 local name = "bwtc_dashboard"
 
 dashboard = {
 	name = name,
 
-	new =	function (player, global_player, items)
+	get_valid_items = function ()
+		local valid_items = {}
 
-		-- for i, proto in pairs(game.entity_prototypes) do
-		-- 	log(i)
-		-- end
+		for _, item in pairs(game.item_prototypes) do
+			local load_stations = game.get_train_stops({ name = item.name .. " load" })
+			local drop_stations = game.get_train_stops({ name = item.name .. " drop" })
+			if load_stations[1] or drop_stations[1] then
+				table.insert(valid_items, item)
+			end
+		end
 
+		return valid_items
+	end,
+
+	new =	function (player, global_player)
 		local main_window = player.gui.center.add{
 			type = "frame",
 			name = name,
@@ -43,7 +47,7 @@ dashboard = {
 			column_count = 4,
 		}
 
-		for _, item in pairs(items) do
+		for _, item in pairs(dashboard.get_valid_items()) do
 			item_card.add_card_to_table(item, item_table)
 		end
 
@@ -69,11 +73,11 @@ dashboard = {
 	end,
 
 	toggle = function (player)
-		local global_player = get_global_player(player)
+		local global_player = global_player.get(player)
 		local global_dashboard = global_player.elements.item_trains_dashboard
 
 		if global_dashboard == nil then
-			dashboard.new(player, global_player, items)
+			dashboard.new(player, global_player)
 		else
 			global_dashboard.destroy()
 			global_player.elements = {}
@@ -81,7 +85,7 @@ dashboard = {
 	end,
 
 	clear = function (player)
-		local global_player = get_global_player(player)
+		local global_player = global_player.get(player)
 
 		if global_player.elements.item_trains_dashboard ~= nil then
 			dashboard.toggle(player)
