@@ -1,5 +1,5 @@
 item_card = {
-	add_card_to_table = function (item, item_table)
+	add_card_to_table = function (card, item_table)
 		local card_frame = item_table.add{
 			type = "frame",
 			direction = "vertical",
@@ -16,10 +16,10 @@ item_card = {
 		}
 		sprite_button_container.add{
 			type = "sprite-button",
-			sprite = ("item/" .. item.name),
+			sprite = ("item/" .. card.item.name),
 			tags = {
 				action = "show_item_card_detail",
-				item = item.name,
+				item = card.item.name,
 			}
 		}
 		local station_label_container = card_header.add{
@@ -29,11 +29,11 @@ item_card = {
 		}
 		station_label_container.add{
 			type = "label",
-			caption = "Load stations: 34",
+			caption = "Load stations: " .. card.load_station_count,
 		}
 		station_label_container.add{
 			type = "label",
-			caption = "Drop stations: 35",
+			caption = "Drop stations: " .. card.drop_station_count,
 		}
 		local card_footer = card_frame.add{
 			type = "flow",
@@ -47,12 +47,12 @@ item_card = {
 		}
 		train_label_container.add{
 			type = "label",
-			caption = "Trains: 42",
+			caption = "Trains: " .. card.train_count,
 			style = "bwtc_item_card_train_label",
 		}
 		train_label_container.add{
 			type = "label",
-			caption = "Fueling: 78",
+			caption = "Fueling: " .. card.fueling_count,
 			style = "bwtc_item_card_train_label",
 		}
 		local train_button_container = card_footer.add{

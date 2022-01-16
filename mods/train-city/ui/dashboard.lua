@@ -6,18 +6,25 @@ local name = "bwtc_dashboard"
 dashboard = {
 	name = name,
 
-	get_valid_items = function ()
-		local valid_items = {}
+	build_item_cards = function ()
+		local item_cards = {}
 
 		for _, item in pairs(game.item_prototypes) do
 			local load_stations = game.get_train_stops({ name = item.name .. " load" })
 			local drop_stations = game.get_train_stops({ name = item.name .. " drop" })
 			if load_stations[1] or drop_stations[1] then
-				table.insert(valid_items, item)
+				local item_card = {
+					item = item,
+					load_station_count = #load_stations,
+					drop_station_count = #drop_stations,
+					train_count = 42,
+					fueling_count = 42,
+				}
+				table.insert(item_cards, item_card)
 			end
 		end
 
-		return valid_items
+		return item_cards
 	end,
 
 	new =	function (player, global_player)
@@ -47,8 +54,8 @@ dashboard = {
 			column_count = 4,
 		}
 
-		for _, item in pairs(dashboard.get_valid_items()) do
-			item_card.add_card_to_table(item, item_table)
+		for _, card in pairs(dashboard.build_item_cards()) do
+			item_card.add_card_to_table(card, item_table)
 		end
 
 		local fuel_tab = tabbed_pane.add{
