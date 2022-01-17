@@ -44,7 +44,7 @@ end
 dashboard = {
 	name = name,
 
-	new =	function (player, global_player)
+	new = function (player, global_player)
 		local main_window = player.gui.center.add{
 			type = "frame",
 			name = name,
