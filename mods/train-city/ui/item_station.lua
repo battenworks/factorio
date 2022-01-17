@@ -17,6 +17,29 @@ local function parse_station_backer_name(backer_name)
 	return selected_item, selected_direction
 end
 
+local function find_all_trains_associated_with_item(item)
+	local associated_trains = {}
+
+	for _, train in pairs(game.surfaces[1].get_trains()) do
+		if train.schedule and train.schedule.records[1].station == item .. " load" then
+			table.insert(associated_trains, train)
+		end
+	end
+
+	return associated_trains
+end
+
+local function set_new_train_station_fields(train_station, selected_item, selected_direction)
+	train_station.backer_name = selected_item .. " " .. selected_direction
+	train_station.trains_limit = 1
+end
+
+local function reassociate_trains_with_old_schedule(trains, schedule)
+	for _, train in pairs(trains) do
+		train.schedule = schedule
+	end
+end
+
 item_station = {
 	name = window_name,
 	selected_item_control = choose_elem_button_name,
@@ -104,12 +127,23 @@ item_station = {
 	configure_train_station = function (player)
 		local global_player = global_player.get(player)
 		local global_gui = global_player.elements.item_station_gui
-		local selected_item = global_gui.main_container.selected_item_container[choose_elem_button_name].elem_value
-		local item = selected_item or "none"
-		local selected_direction = global_gui.main_container.selected_direction_container[direction_switch_name].switch_state
-		local direction = selected_direction == "left" and "drop" or "load"
+		local train_station = global_player.entities.item_station_entity
+		local old_item = parse_station_backer_name(train_station.backer_name)
+		local selected_item = global_gui.main_container.selected_item_container[choose_elem_button_name].elem_value or "none"
+		local switch_direction = global_gui.main_container.selected_direction_container[direction_switch_name].switch_state
+		local selected_direction = switch_direction == "left" and "drop" or "load"
 
-		global_player.entities.item_station_entity.backer_name = item .. " " .. direction
-		global_player.entities.item_station_entity.trains_limit = 1
+		if old_item then
+			local associated_trains = find_all_trains_associated_with_item(old_item)
+			if #associated_trains > 0 then
+				old_schedule = associated_trains[1].schedule
+			end
+
+			set_new_train_station_fields(train_station, selected_item, selected_direction)
+
+			reassociate_trains_with_old_schedule(associated_trains, old_schedule)
+		else
+			set_new_train_station_fields(train_station, selected_item, selected_direction)
+		end
 	end
 }

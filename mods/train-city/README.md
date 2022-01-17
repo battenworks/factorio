@@ -4,11 +4,7 @@ My first Factorio mod. I've built out an automated train city, and I'd like to c
 
 Inspiration from this thread: https://forums.factorio.com/viewtopic.php?f=80&t=53473
 
-## Known Issues
-- Once a station has a selected item and is associated with any trains, choosing a new item for that station changes the station names in all associated trains. This behavior results in the trains staying associated with the station, but now being associated with all other stations with that newly selected item. This is probably bad.
-  - Workaround: If you need to change the item associated with the station, delete the station and create a new one with the correct item selected. This will prevent the changing of the original station in trains' station lists.
-
-What could it do?
+### What could it do?
 - [x] Train type that transports players around the city.
 - [x] Train stations that are associated with items, to automatically name themselves.
 - [x] Trains that are associated with items, to automatically set schedules/routes.
