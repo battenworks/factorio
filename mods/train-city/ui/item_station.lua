@@ -94,7 +94,7 @@ item_station = {
 		selected_direction_container.add{
 			type = "switch",
 			name = direction_switch_name,
-		  switch_state = selected_direction,
+			switch_state = selected_direction,
 		}
 		selected_direction_container.add{
 			type = "label",
