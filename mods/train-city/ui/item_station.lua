@@ -4,7 +4,7 @@ local window_name = "bwtc_item_station_gui"
 local choose_elem_button_name = "bwtc_item_station_selected_item"
 local direction_switch_name = "bwtc_item_station_direction_switch"
 
-local function parse_backer_name(backer_name)
+local function parse_station_backer_name(backer_name)
 	local words = {}
 
 	for word in string.gmatch(backer_name, "%S+") do
@@ -23,7 +23,7 @@ item_station = {
 	selected_direction_control = direction_switch_name,
 
 	new = function (player, global_player, entity)
-		local selected_item, selected_direction = parse_backer_name(entity.backer_name)
+		local selected_item, selected_direction = parse_station_backer_name(entity.backer_name)
 
 		local main_window = player.gui.center.add{
 			type = "frame",
@@ -110,5 +110,6 @@ item_station = {
 		local direction = selected_direction == "left" and "drop" or "load"
 
 		global_player.entities.item_station_entity.backer_name = item .. " " .. direction
+		global_player.entities.item_station_entity.trains_limit = 1
 	end
 }

@@ -3,46 +3,46 @@ require("ui.item_card")
 
 local name = "bwtc_dashboard"
 
+local function get_configured_train_count(item_name)
+	local train_count = 0
+	local trains = game.surfaces[1].get_trains()
+
+	for _, train in pairs(trains) do
+		if train.schedule and train.schedule.records[1] then
+			if train.schedule.records[1].station == item_name .. " load" then
+				train_count = train_count + 1
+			end
+		end
+	end
+
+	return train_count
+end
+
+local function build_item_card_models()
+	local item_cards = {}
+
+	for _, item in pairs(game.item_prototypes) do
+		local load_stations = game.get_train_stops({ name = item.name .. " load" })
+		local drop_stations = game.get_train_stops({ name = item.name .. " drop" })
+
+		if load_stations[1] or drop_stations[1] then
+			local item_card = {
+				item = item,
+				load_station_count = #load_stations,
+				drop_station_count = #drop_stations,
+				configured_train_count = get_configured_train_count(item.name),
+				fueling_count = 666,
+			}
+
+			table.insert(item_cards, item_card)
+		end
+	end
+
+	return item_cards
+end
+
 dashboard = {
 	name = name,
-
-	get_configured_train_count = function (item_name)
-		local train_count = 0
-		local trains = game.surfaces[1].get_trains()
-
-		for _, train in pairs(trains) do
-			if train.schedule and train.schedule.records[1] then
-				if train.schedule.records[1].station == item_name .. " load" then
-					train_count = train_count + 1
-				end
-			end
-		end
-
-		return train_count
-	end,
-
-	build_item_cards = function ()
-		local item_cards = {}
-
-		for _, item in pairs(game.item_prototypes) do
-			local load_stations = game.get_train_stops({ name = item.name .. " load" })
-			local drop_stations = game.get_train_stops({ name = item.name .. " drop" })
-
-			if load_stations[1] or drop_stations[1] then
-				local item_card = {
-					item = item,
-					load_station_count = #load_stations,
-					drop_station_count = #drop_stations,
-					configured_train_count = dashboard.get_configured_train_count(item.name),
-					fueling_count = 42,
-				}
-
-				table.insert(item_cards, item_card)
-			end
-		end
-
-		return item_cards
-	end,
 
 	new =	function (player, global_player)
 		local main_window = player.gui.center.add{
@@ -71,8 +71,8 @@ dashboard = {
 			column_count = 4,
 		}
 
-		for _, card in pairs(dashboard.build_item_cards()) do
-			item_card.add_card_to_table(card, item_table)
+		for _, card_model in pairs(build_item_card_models()) do
+			item_card.add_card_to_table(card_model, item_table)
 		end
 
 		local fuel_tab = tabbed_pane.add{
