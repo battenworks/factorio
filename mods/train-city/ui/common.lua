@@ -4,6 +4,14 @@ global_player = {
 	end
 }
 
-function write_to_screen(any)
-	game.players[1].print(any)
+function write_to_screen(payload)
+	local message
+
+	if type(payload) == "string" then
+		message = payload
+	else
+		message = serpent.block(payload)
+	end
+
+	game.players[1].print(message)
 end

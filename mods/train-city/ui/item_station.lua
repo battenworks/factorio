@@ -29,8 +29,39 @@ local function find_all_trains_associated_with_item(item)
 	return associated_trains
 end
 
-local function set_new_train_station_fields(train_station, selected_item, selected_direction)
-	train_station.backer_name = selected_item .. " " .. selected_direction
+local function build_circuit_condition(selected_item_name, selected_direction)
+	local selected_item_stack_size = game.item_prototypes[selected_item_name].stack_size
+	local cargo_train_capacity = selected_item_stack_size * 80
+	local condition_comparator
+	local condition_constant
+
+	if selected_direction == "load" then
+		condition_comparator = ">"
+		condition_constant = cargo_train_capacity
+	else
+		condition_comparator = "<"
+		local total_capacity = selected_item_stack_size * 48 * 12
+		condition_constant = total_capacity - cargo_train_capacity
+	end
+
+	return {
+		condition = {
+			comparator = condition_comparator,
+			first_signal = {
+				type = "item",
+				name = selected_item_name,
+			},
+			constant = condition_constant,
+		}
+	}
+end
+
+local function set_new_train_station_configuration(train_station, selected_item_name, selected_direction)
+	local control_behavior = train_station.get_or_create_control_behavior()
+	control_behavior.enable_disable = true
+	control_behavior.circuit_condition = build_circuit_condition(selected_item_name, selected_direction)
+
+	train_station.backer_name = selected_item_name .. " " .. selected_direction
 	train_station.trains_limit = 1
 end
 
@@ -129,21 +160,21 @@ item_station = {
 		local global_gui = global_player.elements.item_station_gui
 		local train_station = global_player.entities.item_station_entity
 		local old_item = parse_station_backer_name(train_station.backer_name)
-		local selected_item = global_gui.main_container.selected_item_container[choose_elem_button_name].elem_value or "none"
+		local selected_item_name = global_gui.main_container.selected_item_container[choose_elem_button_name].elem_value or "none"
 		local switch_direction = global_gui.main_container.selected_direction_container[direction_switch_name].switch_state
 		local selected_direction = switch_direction == "left" and "drop" or "load"
 
 		if old_item then
 			local associated_trains = find_all_trains_associated_with_item(old_item)
+
 			if #associated_trains > 0 then
 				old_schedule = associated_trains[1].schedule
 			end
 
-			set_new_train_station_fields(train_station, selected_item, selected_direction)
-
+			set_new_train_station_configuration(train_station, selected_item_name, selected_direction)
 			reassociate_trains_with_old_schedule(associated_trains, old_schedule)
 		else
-			set_new_train_station_fields(train_station, selected_item, selected_direction)
+			set_new_train_station_configuration(train_station, selected_item_name, selected_direction)
 		end
 	end
 }
