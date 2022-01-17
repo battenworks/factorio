@@ -6,20 +6,37 @@ local name = "bwtc_dashboard"
 dashboard = {
 	name = name,
 
+	get_configured_train_count = function (item_name)
+		local train_count = 0
+		local trains = game.surfaces[1].get_trains()
+
+		for _, train in pairs(trains) do
+			if train.schedule and train.schedule.records[1] then
+				if train.schedule.records[1].station == item_name .. " load" then
+					train_count = train_count + 1
+				end
+			end
+		end
+
+		return train_count
+	end,
+
 	build_item_cards = function ()
 		local item_cards = {}
 
 		for _, item in pairs(game.item_prototypes) do
 			local load_stations = game.get_train_stops({ name = item.name .. " load" })
 			local drop_stations = game.get_train_stops({ name = item.name .. " drop" })
+
 			if load_stations[1] or drop_stations[1] then
 				local item_card = {
 					item = item,
 					load_station_count = #load_stations,
 					drop_station_count = #drop_stations,
-					train_count = 42,
+					configured_train_count = dashboard.get_configured_train_count(item.name),
 					fueling_count = 42,
 				}
+
 				table.insert(item_cards, item_card)
 			end
 		end

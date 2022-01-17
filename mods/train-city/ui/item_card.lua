@@ -47,7 +47,7 @@ item_card = {
 		}
 		train_label_container.add{
 			type = "label",
-			caption = "Trains: " .. card.train_count,
+			caption = "Trains: " .. card.configured_train_count,
 			style = "bwtc_item_card_train_label",
 		}
 		train_label_container.add{
