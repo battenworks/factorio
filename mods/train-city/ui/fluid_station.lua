@@ -30,6 +30,12 @@ local function find_all_trains_associated_with_fluid(fluid)
 end
 
 local function build_circuit_condition(selected_fluid_name, selected_direction)
+	local fluid_prototype = game.fluid_prototypes[selected_fluid_name]
+
+	if fluid_prototype == nil then
+		return nil
+	end
+
 	local cargo_train_capacity = 50000
 	local condition_comparator
 	local condition_constant

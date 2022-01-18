@@ -30,7 +30,13 @@ local function find_all_trains_associated_with_item(item)
 end
 
 local function build_circuit_condition(selected_item_name, selected_direction)
-	local selected_item_stack_size = game.item_prototypes[selected_item_name].stack_size
+	local item_prototype = game.item_prototypes[selected_item_name]
+
+	if item_prototype == nil then
+		return nil
+	end
+
+	local selected_item_stack_size = item_prototype.stack_size
 	local cargo_train_capacity = selected_item_stack_size * 80
 	local condition_comparator
 	local condition_constant
