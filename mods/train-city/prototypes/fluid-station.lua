@@ -5,7 +5,7 @@ require("prototypes.recipe")
 local name = "bwtc-fluid-station"
 
 local entity = create_entity(name, "train-stop", "train-stop")
-entity.color = { 1.0, 0.4, 0.1, 0.5 }
+entity.color = { 0.0, 0.47, 0.94, 0.5 }
 
 local item = create_item(name, "item", "train-stop")
 item.icon = "__train-city__/graphics/fluid-station.png"
