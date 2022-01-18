@@ -11,7 +11,8 @@ Inspiration from this thread: https://forums.factorio.com/viewtopic.php?f=80&t=5
 - [x] Train stations that are associated with items/fluids, to automatically name themselves.
 - [x] Trains that are associated with items/fluids, to automatically set schedules/routes.
 - [ ] On a change event of item/fluid, deliver the items/fluid you currently have, and then go load the new items/fluid and remain on the new schedule.
-- [ ] UI that allows us to see metrics/state of trains and add/remove trains from routes.
+- [ ] UI that allows us to see metrics/state of trains
+- [ ] Buttons in UI to add/remove trains from routes (buttons are currently there as placeholder, but do nothing).
 - [x] Allow an item/fluid type to be selectable while editing individual trains.
 - [ ] Make trains smart enough to stop for fuel only when they need to.
 - [ ] Make fuel stations configurable from one place.
