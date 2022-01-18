@@ -1,7 +1,7 @@
 require("ui.common")
 
-local window_name = "bwtc_item_train_gui"
-local choose_elem_button_name = "bwtc_item_train_selected_item"
+local window_name = "bwtc_fluid_train_gui"
+local choose_elem_button_name = "bwtc_fluid_train_selected_fluid"
 
 local function parse_station_name(station_name)
 	local words = {}
@@ -10,14 +10,14 @@ local function parse_station_name(station_name)
 		table.insert(words, word)
 	end
 
-	local selected_item = game.item_prototypes[words[1]] and words[1] or nil
+	local selected_fluid = game.fluid_prototypes[words[1]] and words[1] or nil
 
-	return selected_item
+	return selected_fluid
 end
 
-item_train = {
+fluid_train = {
 	name = window_name,
-	selected_item_control = choose_elem_button_name,
+	selected_fluid_control = choose_elem_button_name,
 
 	render_station_list = function (container, schedule)
 		container.clear()
@@ -36,21 +36,21 @@ item_train = {
 
 	new = function (player, global_player, entity)
 		if entity.train.schedule then
-			selected_item = parse_station_name(entity.train.schedule.records[1].station)
+			selected_fluid = parse_station_name(entity.train.schedule.records[1].station)
 		else
-			selected_item = nil
+			selected_fluid = nil
 		end
 
 		local main_window = player.gui.center.add{
 			type = "frame",
 			name = window_name,
-			caption = { "entity-name.bwtc-item-train" },
+			caption = { "entity-name.bwtc-fluid-train" },
 			style = "bwtc_gui_main_window",
 		}
 
 		player.opened = main_window
-		global_player.elements.item_train_gui = main_window
-		global_player.entities.item_train_entity = entity.train
+		global_player.elements.fluid_train_gui = main_window
+		global_player.entities.fluid_train_entity = entity.train
 
 		local main_container = main_window.add{
 			type = "frame",
@@ -58,22 +58,22 @@ item_train = {
 			direction = "vertical",
 			style = "inside_shallow_frame",
 		}
-		local selected_item_container = main_container.add{
+		local selected_fluid_container = main_container.add{
 			type = "flow",
-			name = "selected_item_container",
+			name = "selected_fluid_container",
 			direction = "horizontal",
 			style = "bwtc_train_selection_container",
 		}
-		selected_item_container.add{
+		selected_fluid_container.add{
 			type = "label",
-			caption = { "bwtc.item-caption" },
+			caption = { "bwtc.fluid-caption" },
 		}
-		local choose_item_button = selected_item_container.add{
+		local choose_fluid_button = selected_fluid_container.add{
 			type = "choose-elem-button",
 			name = choose_elem_button_name,
-			elem_type = "item",
+			elem_type = "fluid",
 		}
-		choose_item_button.elem_value = selected_item
+		choose_fluid_button.elem_value = selected_fluid
 		local station_header = main_container.add{
 			type = "frame",
 			name = "station_header",
@@ -92,7 +92,7 @@ item_train = {
 			style = "inside_shallow_frame_with_padding",
 		}
 		if entity.train.schedule then
-			item_train.render_station_list(station_list_container, entity.train.schedule)
+			fluid_train.render_station_list(station_list_container, entity.train.schedule)
 		else
 			station_list_container.add{
 				type = "label",
@@ -103,10 +103,10 @@ item_train = {
 
 	toggle = function (player, entity)
 		local global_player = global_player.get(player)
-		local global_gui = global_player.elements.item_train_gui
+		local global_gui = global_player.elements.fluid_train_gui
 
 		if global_gui == nil then
-			item_train.new(player, global_player, entity)
+			fluid_train.new(player, global_player, entity)
 		else
 			global_gui.destroy()
 			global_player.elements = {}
@@ -117,16 +117,16 @@ item_train = {
 	clear = function (player)
 		local global_player = global_player.get(player)
 
-		if global_player.elements.item_train_gui ~= nil then
-			item_train.toggle(player)
+		if global_player.elements.fluid_train_gui ~= nil then
+			fluid_train.toggle(player)
 		end
 	end,
 
 	configure_train = function (player)
 		local global_player = global_player.get(player)
-		local global_gui = global_player.elements.item_train_gui
-		local selected_item = global_gui.main_container.selected_item_container[choose_elem_button_name].elem_value
-		local item = selected_item or "none"
+		local global_gui = global_player.elements.fluid_train_gui
+		local selected_fluid = global_gui.main_container.selected_fluid_container[choose_elem_button_name].elem_value
+		local fluid = selected_fluid or "none"
 
 		local full_wait_condition = {
 			type = "full",
@@ -150,7 +150,7 @@ item_train = {
 			current = 1,
 			records = {
 				{
-					station = item .. " load",
+					station = fluid .. " load",
 					wait_conditions = {
 						full_wait_condition,
 						inactivity_wait_condition,
@@ -163,7 +163,7 @@ item_train = {
 					}
 				},
 				{
-					station = item .. " drop",
+					station = fluid .. " drop",
 					wait_conditions = {
 						empty_wait_condition,
 						inactivity_wait_condition,
@@ -178,9 +178,9 @@ item_train = {
 			}
 		}
 
-		item_train.render_station_list(global_gui.main_container.station_list_container, schedule)
+		fluid_train.render_station_list(global_gui.main_container.station_list_container, schedule)
 
-		local train = global_player.entities.item_train_entity
+		local train = global_player.entities.fluid_train_entity
 		train.schedule = schedule
 		train.manual_mode = false
 

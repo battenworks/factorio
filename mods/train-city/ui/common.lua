@@ -1,6 +1,6 @@
 global_player = {
 	get = function (player)
-		return global.item_trains[player.index]
+		return global.train_city[player.index]
 	end
 }
 

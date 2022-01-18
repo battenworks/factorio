@@ -53,7 +53,7 @@ dashboard = {
 		}
 
 		player.opened = main_window
-		global_player.elements.item_trains_dashboard = main_window
+		global_player.elements.train_city_dashboard = main_window
 
 		local tabbed_pane = main_window.add{
 			type = "tabbed-pane",
@@ -98,7 +98,7 @@ dashboard = {
 
 	toggle = function (player)
 		local global_player = global_player.get(player)
-		local global_dashboard = global_player.elements.item_trains_dashboard
+		local global_dashboard = global_player.elements.train_city_dashboard
 
 		if global_dashboard == nil then
 			dashboard.new(player, global_player)
@@ -111,7 +111,7 @@ dashboard = {
 	clear = function (player)
 		local global_player = global_player.get(player)
 
-		if global_player.elements.item_trains_dashboard ~= nil then
+		if global_player.elements.train_city_dashboard ~= nil then
 			dashboard.toggle(player)
 		end
 	end
