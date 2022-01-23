@@ -1,5 +1,6 @@
 item_card = {
 	add_card_to_table = function (card, item_table)
+		local sprite_path = card.item_type == "item" and "item/" .. card.item.name or "fluid/" .. card.item.name
 		local card_frame = item_table.add{
 			type = "frame",
 			direction = "vertical",
@@ -16,7 +17,7 @@ item_card = {
 		}
 		sprite_button_container.add{
 			type = "sprite-button",
-			sprite = ("item/" .. card.item.name),
+			sprite = (sprite_path),
 			tags = {
 				action = "show_item_card_detail",
 				item = card.item.name,

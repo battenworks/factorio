@@ -1,8 +1,14 @@
 local styles = data.raw["gui-style"].default
 
-styles["bwtc_dashboard"] = {
+styles["bwtc_main_container"] = {
 	type = "frame_style",
-	size = { 950, 600 }
+	vertically_stretchable = "on",
+}
+
+styles["bwtc_tabbed_pane"] = {
+	type = "tabbed_pane_style",
+	size = { 950, 580 },
+	top_padding = 12,
 }
 
 styles["bwtc_item_card_header"] = {
@@ -24,6 +30,8 @@ styles["bwtc_item_card_station_label_container"] = {
 
 styles["bwtc_item_card_footer"] = {
 	type = "horizontal_flow_style",
+	horizontal_align = "center",
+	horizontally_stretchable = "on",
 }
 
 styles["bwtc_item_card_train_label_container"] = {
