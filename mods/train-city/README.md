@@ -20,3 +20,4 @@ Inspiration from this thread: https://forums.factorio.com/viewtopic.php?f=80&t=5
 - [ ] Role switcher for player to easily choose inventory by role (terraforming, infrastructure, pods, etc.)
 - [x] Enable/disable stations based on their selected item/fluid.
 - [x] Make transportation-train stack size = 1.
+- [ ] Change `direction` field of stations to support 3 purposes/roles: load, drop, and queue
