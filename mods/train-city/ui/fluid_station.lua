@@ -136,7 +136,6 @@ fluid_station = {
 			type = "label",
 			caption = { "bwtc.load-caption" },
 		}
-
 	end,
 
 	toggle = function (player, entity)

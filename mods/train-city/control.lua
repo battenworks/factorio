@@ -95,11 +95,11 @@ script.on_event(defines.events.on_gui_elem_changed,
 		if event.element then
 			if event.element.name == fluid_station.selected_fluid_control then
 				fluid_station.configure_train_station(player)
-			elseif event.element.name == fluid_train.selected_fluid_control then
+			elseif event.element.name == fluid_train.selection_button_name then
 				fluid_train.configure_train(player)
 			elseif event.element.name == item_station.selected_item_control then
 				item_station.configure_train_station(player)
-			elseif event.element.name == item_train.selected_item_control then
+			elseif event.element.name == item_train.selection_button_name then
 				item_train.configure_train(player)
 			end
 		end
