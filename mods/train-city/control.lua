@@ -93,11 +93,11 @@ script.on_event(defines.events.on_gui_elem_changed,
 		local player = game.get_player(event.player_index)
 
 		if event.element then
-			if event.element.name == fluid_station.selected_fluid_control then
+			if event.element.name == fluid_station.selection_button_name then
 				fluid_station.configure_train_station(player)
 			elseif event.element.name == fluid_train.selection_button_name then
 				fluid_train.configure_train(player)
-			elseif event.element.name == item_station.selected_item_control then
+			elseif event.element.name == item_station.selection_button_name then
 				item_station.configure_train_station(player)
 			elseif event.element.name == item_train.selection_button_name then
 				item_train.configure_train(player)
@@ -110,10 +110,10 @@ script.on_event(defines.events.on_gui_switch_state_changed,
 	function (event)
 		local player = game.get_player(event.player_index)
 
-		if event.element and event.element.name == item_station.selected_direction_control then
-			item_station.configure_train_station(player)
-		elseif event.element and event.element.name == fluid_station.selected_direction_control then
+		if event.element and event.element.name == fluid_station.direction_switch_name then
 			fluid_station.configure_train_station(player)
+		elseif event.element and event.element.name == item_station.direction_switch_name then
+			item_station.configure_train_station(player)
 		end
 	end
 )

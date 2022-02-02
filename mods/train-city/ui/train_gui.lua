@@ -1,7 +1,7 @@
 require("ui.common")
 
 local window_name = "bwtc_train_gui"
-local button_name = "bwtc_train_selection"
+local selection_button_name = "bwtc_train_selection"
 
 local function parse_selected_item(schedule, item_type)
 	selected_item = nil
@@ -71,7 +71,7 @@ local function new(player, global_player, entity, item_type)
 	}
 	local selection_button = selection_container.add{
 		type = "choose-elem-button",
-		name = button_name,
+		name = selection_button_name,
 		elem_type = item_type,
 	}
 	selection_button.elem_value = selected_item
@@ -104,7 +104,7 @@ end
 
 train_gui = {
 	name = window_name,
-	selection_button_name = button_name,
+	selection_button_name = selection_button_name,
 }
 
 train_gui.toggle = function (player, entity, item_type)
@@ -131,7 +131,7 @@ end
 train_gui.configure_train = function (player)
 	local global_player = global_player.get(player)
 	local global_gui = global_player.elements.train_gui
-	local selected_item = global_gui.main_container.selection_container[button_name].elem_value or "none"
+	local selected_item = global_gui.main_container.selection_container[selection_button_name].elem_value or "none"
 
 	local full_wait_condition = {
 		type = "full",
