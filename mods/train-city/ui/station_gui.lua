@@ -140,13 +140,13 @@ local function new(player, global_player, entity, item_type)
 	}
 end
 
-item_station = {
+station_gui = {
 	name = window_name,
 	selection_button_name = selection_button_name,
 	direction_switch_name = direction_switch_name,
 }
 
-item_station.toggle = function (player, entity, item_type)
+station_gui.toggle = function (player, entity, item_type)
 	local global_player = global_player.get(player)
 	local global_gui = global_player.elements.station_gui
 
@@ -159,15 +159,16 @@ item_station.toggle = function (player, entity, item_type)
 	end
 end
 
-item_station.clear = function (player)
+station_gui.clear = function (player)
 	local global_player = global_player.get(player)
 
 	if global_player.elements.station_gui ~= nil then
-		item_station.toggle(player)
+		station_gui.toggle(player)
 	end
 end
 
-item_station.configure_train_station = function (player, item_type)
+-- TODO fix bug: changing a station's item, then changing it back to the original, leaves orphaned trains
+station_gui.configure_train_station = function (player, item_type)
 	local global_player = global_player.get(player)
 	local global_gui = global_player.elements.station_gui
 	local train_station = global_player.entities.station_entity

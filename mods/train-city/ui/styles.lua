@@ -58,7 +58,7 @@ styles["bwtc_station_selection_container"] = {
 	vertical_align = "center",
 }
 
-styles["bwtc_station_selected_direction_container"] = {
+styles["bwtc_station_direction_container"] = {
 	type = "horizontal_flow_style",
 	vertical_align = "center",
 }

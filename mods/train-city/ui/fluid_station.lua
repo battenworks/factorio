@@ -2,20 +2,20 @@ require("ui.station_gui")
 
 local item_type = "fluid"
 
-fluid_station = {
-	name = item_station.window_name,
-	selection_button_name = item_station.selection_button_name,
-	direction_switch_name = item_station.direction_switch_name,
+fluid_station_gui = {
+	name = station_gui.name,
+	selection_button_name = station_gui.selection_button_name,
+	direction_switch_name = station_gui.direction_switch_name,
 }
 
-fluid_station.toggle = function (player, entity)
-	item_station.toggle(player, entity, item_type)
+fluid_station_gui.toggle = function (player, entity)
+	station_gui.toggle(player, entity, item_type)
 end
 
-fluid_station.clear = function (player)
-	item_station.clear(player)
+fluid_station_gui.clear = function (player)
+	station_gui.clear(player)
 end
 
-fluid_station.configure_train_station = function (player)
-	item_station.configure_train_station(player, item_type)
+fluid_station_gui.configure_train_station = function (player)
+	station_gui.configure_train_station(player, item_type)
 end
