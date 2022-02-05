@@ -143,7 +143,7 @@ dashboard = {
 			type = "label",
 			caption = "Ammo stuff goes here",
 		}
-		
+
 		tabbed_pane.add_tab(items_tab, items_scroll_pane)
 		tabbed_pane.add_tab(fluids_tab, fluids_scroll_pane)
 		tabbed_pane.add_tab(fuel_tab, fuel_label)

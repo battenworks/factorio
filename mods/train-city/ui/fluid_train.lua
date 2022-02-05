@@ -2,9 +2,9 @@ require("ui.train_gui")
 
 local item_type = "fluid"
 
-	fluid_train_gui = {
-		name = train_gui.name,
-		selection_button_name = train_gui.selection_button_name,
+fluid_train_gui = {
+	name = train_gui.name,
+	selection_button_name = train_gui.selection_button_name,
 }
 
 fluid_train_gui.toggle = function (player, entity)
