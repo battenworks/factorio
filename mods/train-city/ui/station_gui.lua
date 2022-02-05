@@ -23,12 +23,20 @@ local function parse_selection_and_direction(backer_name, item_type)
 	return selected_item, selected_direction
 end
 
-local function find_all_trains_associated_with_item(item)
+local function is_already_associated_with_an_item(backer_name, item_type)
+	return parse_selection_and_direction(backer_name, item_type) ~= nil
+end
+
+local function find_all_trains_associated_with_station(station_name)
 	local associated_trains = {}
 
 	for _, train in pairs(game.surfaces[1].get_trains()) do
-		if train.schedule and train.schedule.records[1].station == item .. " load" then
-			table.insert(associated_trains, train)
+		if train.schedule then
+			for _, record in pairs(train.schedule.records) do
+				if record.station == station_name then
+					table.insert(associated_trains, train)
+				end
+			end
 		end
 	end
 
@@ -167,18 +175,16 @@ station_gui.clear = function (player)
 	end
 end
 
--- TODO fix bug: changing a station's item, then changing it back to the original, leaves orphaned trains
 station_gui.configure_train_station = function (player, item_type)
 	local global_player = global_player.get(player)
 	local global_gui = global_player.elements.station_gui
 	local train_station = global_player.entities.station_entity
-	local old_item = parse_selection_and_direction(train_station.backer_name, item_type)
 	local selected_item_name = global_gui.main_container.selection_container[selection_button_name].elem_value or "none"
 	local switch_direction = global_gui.main_container.direction_container[direction_switch_name].switch_state
 	local selected_direction = switch_direction == "left" and "drop" or "load"
 
-	if old_item then
-		local associated_trains = find_all_trains_associated_with_item(old_item)
+	if is_already_associated_with_an_item(train_station.backer_name, item_type) then
+		local associated_trains = find_all_trains_associated_with_station(train_station.backer_name)
 
 		if #associated_trains > 0 then
 			old_schedule = associated_trains[1].schedule
