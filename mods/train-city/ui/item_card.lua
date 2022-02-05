@@ -51,22 +51,5 @@ item_card = {
 			caption = "Trains: " .. card.configured_train_count,
 			style = "bwtc_item_card_train_label",
 		}
-		train_label_container.add{
-			type = "label",
-			caption = "Fueling: " .. card.fueling_count,
-			style = "bwtc_item_card_train_label",
-		}
-		local train_button_container = card_footer.add{
-			type = "flow",
-			direction = "vertical",
-		}
-		train_button_container.add{
-			type = "button",
-			caption = "Add Train",
-		}
-		train_button_container.add{
-			type = "button",
-			caption = "Remove Train",
-		}
 	end
 }
