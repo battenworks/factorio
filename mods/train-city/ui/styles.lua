@@ -84,3 +84,10 @@ styles["bwtc_train_station_line_item"] = {
 	type = "label_style",
 	left_margin = 15,
 }
+
+styles["bwtc_potion_metrics_line_item"] = {
+	type = "horizontal_flow_style",
+	bottom_margin = 5,
+	horizontally_stretchable = "on",
+	top_margin = 5,
+}
