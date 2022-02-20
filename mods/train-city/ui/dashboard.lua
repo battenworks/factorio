@@ -67,7 +67,12 @@ local function build_fluid_card_models()
 	return fluid_cards
 end
 
-local function build_potion_metrics()
+local function build_potion_metrics(player)
+	local player_position = player.position
+	local player_surface = game.surfaces[1]
+	local player_force = game.forces["player"]
+	local current_logistic_network = player_surface.find_logistic_network_by_position(player_position, player_force)
+
 	local potion_metrics = {}
 	local potions = game.get_filtered_item_prototypes({
 		{
@@ -81,11 +86,17 @@ local function build_potion_metrics()
 			mode = "and"
 		}
 	})
-	
+
 	for _, potion in pairs(potions) do
+		local item_count = "player not in logistics network"
+
+		if current_logistic_network ~= nil then
+			item_count = current_logistic_network.get_item_count(potion.name)
+		end
+
 		local potion_metric = {
 			name = potion.name,
-			count = 100,
+			count = item_count,
 		}
 
 		table.insert(potion_metrics, potion_metric)
@@ -170,7 +181,7 @@ dashboard.new = function (player, global_player)
 		type = "table",
 		column_count = 1,
 	}
-	for _, potion_metrics_model in pairs(build_potion_metrics()) do
+	for _, potion_metrics_model in pairs(build_potion_metrics(player)) do
 		potion_metrics_card.add_card_to_table(potion_metrics_model, potions_table)
 	end
 
