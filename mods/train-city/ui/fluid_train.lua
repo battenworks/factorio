@@ -1,14 +1,16 @@
 require("ui.train_gui")
 
 local item_type = "fluid"
+local gui_name = "bwtc_fluid_train_gui"
+local selection_button_name = "bwtc_fluid_train_selection_button"
 
 fluid_train_gui = {
-	name = train_gui.name,
-	selection_button_name = train_gui.selection_button_name,
+	name = gui_name,
+	selection_button_name = selection_button_name,
 }
 
 fluid_train_gui.toggle = function (player, entity)
-	train_gui.toggle(player, entity, item_type)
+	train_gui.toggle(player, entity, item_type, gui_name, selection_button_name)
 end
 
 fluid_train_gui.clear = function (player)

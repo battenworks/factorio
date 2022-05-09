@@ -1,9 +1,5 @@
 require("ui.common")
 
-local window_name = "bwtc_station_gui"
-local selection_button_name = "bwtc_station_selection"
-local direction_switch_name = "bwtc_station_direction"
-
 local function parse_selection_and_direction(backer_name, item_type)
 	selected_item = nil
 	local words = {}
@@ -131,12 +127,12 @@ local function reassociate_trains_with_old_schedule(trains, schedule)
 	end
 end
 
-local function new(player, global_player, entity, item_type)
+local function new(player, global_player, entity, item_type, gui_name, button_name, switch_name)
 	local selected_item, selected_direction = parse_selection_and_direction(entity.backer_name, item_type)
 
 	local main_window = player.gui.center.add{
 		type = "frame",
-		name = window_name,
+		name = gui_name,
 		caption = { "entity-name.bwtc-" .. item_type .. "-station" },
 		style = "bwtc_gui_main_window",
 	}
@@ -163,7 +159,7 @@ local function new(player, global_player, entity, item_type)
 	}
 	local choose_item_button = selection_container.add{
 		type = "choose-elem-button",
-		name = selection_button_name,
+		name = button_name,
 		elem_type = item_type,
 	}
 	choose_item_button.elem_value = selected_item
@@ -179,7 +175,7 @@ local function new(player, global_player, entity, item_type)
 	}
 	direction_container.add{
 		type = "switch",
-		name = direction_switch_name,
+		name = switch_name,
 		switch_state = selected_direction,
 	}
 	direction_container.add{
@@ -188,18 +184,18 @@ local function new(player, global_player, entity, item_type)
 	}
 end
 
-station_gui = {
-	name = window_name,
-	selection_button_name = selection_button_name,
-	direction_switch_name = direction_switch_name,
-}
+station_gui = {}
 
-station_gui.toggle = function (player, entity, item_type)
+station_gui.toggle = function (player, entity, item_type, gui_name, button_name, switch_name)
+	station_gui.name = gui_name
+	station_gui.selection_button_name = button_name
+	station_gui.direction_switch_name = switch_name
+
 	local global_player = global_player.get(player)
 	local global_gui = global_player.elements.station_gui
 
 	if global_gui == nil then
-		new(player, global_player, entity, item_type)
+		new(player, global_player, entity, item_type, gui_name, button_name, switch_name)
 	else
 		global_gui.destroy()
 		global_player.elements = {}
@@ -219,8 +215,8 @@ station_gui.configure_train_station = function (player, item_type)
 	local global_player = global_player.get(player)
 	local global_gui = global_player.elements.station_gui
 	local train_station = global_player.entities.station_entity
-	local selected_item_name = global_gui.main_container.selection_container[selection_button_name].elem_value or "none"
-	local switch_direction = global_gui.main_container.direction_container[direction_switch_name].switch_state
+	local selected_item_name = global_gui.main_container.selection_container[station_gui.selection_button_name].elem_value or "none"
+	local switch_direction = global_gui.main_container.direction_container[station_gui.direction_switch_name].switch_state
 	local selected_direction = switch_direction == "left" and "drop" or "load"
 
 	if is_already_associated_with_an_item(train_station.backer_name, item_type) then

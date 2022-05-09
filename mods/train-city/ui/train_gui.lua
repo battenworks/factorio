@@ -1,8 +1,5 @@
 require("ui.common")
 
-local window_name = "bwtc_train_gui"
-local selection_button_name = "bwtc_train_selection"
-
 local function parse_selected_item(schedule, item_type)
 	selected_item = nil
 
@@ -39,12 +36,12 @@ local function render_station_list(container, schedule)
 	end
 end
 
-local function new(player, global_player, entity, item_type)
+local function new(player, global_player, entity, item_type, gui_name, button_name)
 	selected_item = parse_selected_item(entity.train.schedule, item_type)
 
 	local main_window = player.gui.center.add{
 		type = "frame",
-		name = window_name,
+		name = gui_name,
 		caption = { "entity-name.bwtc-" .. item_type .. "-train" },
 		style = "bwtc_gui_main_window",
 	}
@@ -71,7 +68,7 @@ local function new(player, global_player, entity, item_type)
 	}
 	local selection_button = selection_container.add{
 		type = "choose-elem-button",
-		name = selection_button_name,
+		name = button_name,
 		elem_type = item_type,
 	}
 	selection_button.elem_value = selected_item
@@ -102,17 +99,17 @@ local function new(player, global_player, entity, item_type)
 	end
 end
 
-train_gui = {
-	name = window_name,
-	selection_button_name = selection_button_name,
-}
+train_gui = {}
 
-train_gui.toggle = function (player, entity, item_type)
+train_gui.toggle = function (player, entity, item_type, gui_name, button_name)
+	train_gui.name = gui_name
+	train_gui.selection_button_name = button_name
+
 	local global_player = global_player.get(player)
 	local global_gui = global_player.elements.train_gui
 
 	if global_gui == nil then
-		new(player, global_player, entity, item_type)
+		new(player, global_player, entity, item_type, gui_name, button_name)
 	else
 		global_gui.destroy()
 		global_player.elements = {}
@@ -131,7 +128,7 @@ end
 train_gui.configure_train = function (player)
 	local global_player = global_player.get(player)
 	local global_gui = global_player.elements.train_gui
-	local selected_item = global_gui.main_container.selection_container[selection_button_name].elem_value or "none"
+	local selected_item = global_gui.main_container.selection_container[train_gui.selection_button_name].elem_value or "none"
 
 	local full_wait_condition = {
 		type = "full",

@@ -110,10 +110,12 @@ script.on_event(defines.events.on_gui_switch_state_changed,
 	function (event)
 		local player = game.get_player(event.player_index)
 
-		if event.element and event.element.name == fluid_station_gui.direction_switch_name then
-			fluid_station_gui.configure_train_station(player)
-		elseif event.element and event.element.name == item_station_gui.direction_switch_name then
-			item_station_gui.configure_train_station(player)
+		if event.element then
+			if event.element.name == fluid_station_gui.direction_switch_name then
+				fluid_station_gui.configure_train_station(player)
+			elseif event.element.name == item_station_gui.direction_switch_name then
+				item_station_gui.configure_train_station(player)
+			end
 		end
 	end
 )
