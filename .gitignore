@@ -39,8 +39,19 @@ luac.out
 *.x86_64
 *.hex
 
+# Stuff in my workspace
 install*
 uninstall*
 *.raw
 .vscode/
 scratch
+
+# Stuff in the Factorio user directory
+*.dat
+*.log
+player-data.json
+saves/
+config/
+temp/
+wiki-type-mapping.json
+mods/mod-list.json
