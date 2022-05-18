@@ -119,3 +119,17 @@ script.on_event(defines.events.on_gui_switch_state_changed,
 		end
 	end
 )
+
+script.on_event(defines.events.on_gui_click,
+	function (event)
+		local player = game.get_player(event.player_index)
+
+		if event.element then
+			if event.element.name == "close_button" then
+				if event.element.parent.parent.name == dashboard.name then
+					dashboard.toggle(player)
+				end
+			end
+		end
+	end
+)

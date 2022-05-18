@@ -149,6 +149,7 @@ dashboard.new = function (player, global_player)
 	close_button.hovered_sprite = "utility/close_black"
 	close_button.sprite = "utility/close_white"
 	close_button.style = "frame_action_button"
+	close_button.tooltip = { "bwtc.close-button-caption" }
 	-- actions = { on_click = { }},
 
 	-- Main content frame
