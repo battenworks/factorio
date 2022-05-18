@@ -8,7 +8,6 @@ styles["bwtc_main_container"] = {
 styles["bwtc_tabbed_pane"] = {
 	type = "tabbed_pane_style",
 	size = { 950, 580 },
-	top_padding = 12,
 }
 
 styles["bwtc_item_card_header"] = {

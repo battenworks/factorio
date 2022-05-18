@@ -110,22 +110,55 @@ dashboard = {
 }
 
 dashboard.new = function (player, global_player)
-	local main_window = player.gui.center.add{
+	local main_window = player.gui.screen.add{
 		type = "frame",
-		name = name,
-		caption = { "bwtc.dashboard-caption" },
+		direction = "vertical",
 	}
+	main_window.auto_center = true
+	main_window.name = name
 
 	player.opened = main_window
 	global_player.elements.train_city_dashboard = main_window
 
-	local main_container = main_window.add{
-		type = "frame",
-		name = "main_container",
-		direction = "vertical",
-		style = "inside_shallow_frame",
+	local title_bar = main_window.add{
+		type = "flow",
+		direction = "horizontal",
 	}
-	local tabbed_pane = main_container.add{
+	title_bar.name = "header"
+	title_bar.style.horizontally_stretchable = true
+
+	local title = title_bar.add{
+		type = "label",
+		caption = { "bwtc.dashboard-caption" },
+	}
+	title.ignored_by_interaction = true
+	title.style = "frame_title"
+
+	local dragger = title_bar.add{
+		type = "empty-widget"
+	}
+	dragger.name = "dragger"
+	dragger.drag_target = main_window
+	dragger.style = "draggable_space"
+	dragger.style.height = 24
+	dragger.style.width = 830
+
+	local close_button = title_bar.add{ type = "sprite-button" }
+	close_button.name = "close_button"
+	close_button.clicked_sprite = "utility/close_black"
+	close_button.hovered_sprite = "utility/close_black"
+	close_button.sprite = "utility/close_white"
+	close_button.style = "frame_action_button"
+	-- actions = { on_click = { }},
+
+	-- Main content frame
+	local content_frame = main_window.add{
+		type = "frame",
+		name = "content_frame",
+		direction = "vertical",
+		style = "inside_deep_frame_for_tabs"
+	}
+	local tabbed_pane = content_frame.add{
 		type = "tabbed-pane",
 		style = "bwtc_tabbed_pane",
 	}
