@@ -128,6 +128,14 @@ script.on_event(defines.events.on_gui_click,
 			if event.element.name == "close_button" then
 				if event.element.parent.parent.name == dashboard.name then
 					dashboard.toggle(player)
+				elseif event.element.parent.parent.name == fluid_station_gui.name then
+					fluid_station_gui.toggle(player)
+				elseif event.element.parent.parent.name == fluid_train_gui.name then
+					fluid_train_gui.toggle(player)
+				elseif event.element.parent.parent.name == item_station_gui.name then
+					item_station_gui.toggle(player)
+				elseif event.element.parent.parent.name == item_train_gui.name then
+					item_train_gui.toggle(player)
 				end
 			end
 		end
