@@ -1,40 +1,21 @@
-global_player = {
-	get = function (player)
-		return global.train_city[player.index]
-	end
-}
+common = {}
 
-function write_to_screen(payload)
-	local message
-
-	if type(payload) == "string" then
-		message = payload
-	else
-		message = serpent.block(payload)
-	end
-
-	game.players[1].print(message)
+common.get_global_player = function (player)
+	return global.train_city[player.index]
 end
 
-function add_title_bar_to_gui(title, gui)
-	local title_bar = gui.add{
-		type = "flow",
-		direction = "horizontal",
-	}
+common.add_title_bar_to_gui = function (title, gui)
+	local title_bar = gui.add{ type = "flow", direction = "horizontal" }
 	title_bar.name = "title_bar"
 	title_bar.drag_target = gui
 
-	local title_label = title_bar.add{
-		type = "label",
-		caption = title,
-	}
+	local title_label = title_bar.add{ type = "label" }
 	title_label.name = "title_label"
+	title_label.caption = title
 	title_label.ignored_by_interaction = true
 	title_label.style = "frame_title"
 
-	local drag_handle = title_bar.add{
-		type = "empty-widget"
-	}
+	local drag_handle = title_bar.add{ type = "empty-widget" }
 	drag_handle.name = "drag_handle"
 	drag_handle.ignored_by_interaction = true
 	drag_handle.style = "draggable_space_header"

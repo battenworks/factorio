@@ -1,4 +1,6 @@
-function parse_selection_and_direction(backer_name, item_type)
+station_behavior = {}
+
+station_behavior.parse_selection_and_direction = function (backer_name, item_type)
 	selected_item = nil
 	local words = {}
 
@@ -17,11 +19,11 @@ function parse_selection_and_direction(backer_name, item_type)
 	return selected_item, selected_direction
 end
 
-function is_already_associated_with_an_item(backer_name, item_type)
-	return parse_selection_and_direction(backer_name, item_type) ~= nil
+station_behavior.is_already_associated_with_an_item = function (backer_name, item_type)
+	return station_behavior.parse_selection_and_direction(backer_name, item_type) ~= nil
 end
 
-function find_all_trains_associated_with_station(station_name)
+station_behavior.find_all_trains_associated_with_station = function (station_name)
 	local associated_trains = {}
 
 	for _, train in pairs(game.surfaces[1].get_trains()) do
@@ -37,7 +39,7 @@ function find_all_trains_associated_with_station(station_name)
 	return associated_trains
 end
 
-function build_fluid_circuit_condition(selected_fluid_name, selected_direction)
+local function build_fluid_circuit_condition(selected_fluid_name, selected_direction)
 	local fluid_prototype = game.fluid_prototypes[selected_fluid_name]
 
 	if fluid_prototype == nil then
@@ -69,7 +71,7 @@ function build_fluid_circuit_condition(selected_fluid_name, selected_direction)
 	}
 end
 
-function build_item_circuit_condition(selected_item_name, selected_direction)
+local function build_item_circuit_condition(selected_item_name, selected_direction)
 	local item_prototype = game.item_prototypes[selected_item_name]
 
 	if item_prototype == nil then
@@ -102,7 +104,7 @@ function build_item_circuit_condition(selected_item_name, selected_direction)
 	}
 end
 
-function build_circuit_condition(selected_item_name, item_type, selected_direction)
+local function build_circuit_condition(selected_item_name, item_type, selected_direction)
 	if item_type == "fluid" then
 		return build_fluid_circuit_condition(selected_item_name, selected_direction)
 	else
@@ -110,7 +112,7 @@ function build_circuit_condition(selected_item_name, item_type, selected_directi
 	end
 end
 
-function set_new_train_station_configuration(train_station, selected_item_name, item_type, selected_direction)
+station_behavior.set_new_train_station_configuration = function (train_station, selected_item_name, item_type, selected_direction)
 	local control_behavior = train_station.get_or_create_control_behavior()
 	control_behavior.enable_disable = true
 	control_behavior.circuit_condition = build_circuit_condition(selected_item_name, item_type, selected_direction)
@@ -119,7 +121,7 @@ function set_new_train_station_configuration(train_station, selected_item_name, 
 	train_station.trains_limit = 1
 end
 
-function reassociate_trains_with_old_schedule(trains, schedule)
+station_behavior.reassociate_trains_with_old_schedule = function (trains, schedule)
 	for _, train in pairs(trains) do
 		train.schedule = schedule
 	end

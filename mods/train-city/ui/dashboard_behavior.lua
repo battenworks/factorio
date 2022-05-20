@@ -1,4 +1,6 @@
-function get_configured_train_count(item_name)
+dashboard_behavior = {}
+
+local function get_configured_train_count(item_name)
 	local train_count = 0
 	local trains = game.surfaces[1].get_trains()
 
@@ -13,7 +15,7 @@ function get_configured_train_count(item_name)
 	return train_count
 end
 
-function build_item_card_models()
+dashboard_behavior.build_item_card_models = function ()
 	local item_cards = {}
 
 	for _, item in pairs(game.item_prototypes) do
@@ -37,7 +39,7 @@ function build_item_card_models()
 	return item_cards
 end
 
-function build_fluid_card_models()
+dashboard_behavior.build_fluid_card_models = function ()
 	local fluid_cards = {}
 
 	for _, fluid in pairs(game.fluid_prototypes) do
@@ -61,7 +63,7 @@ function build_fluid_card_models()
 	return fluid_cards
 end
 
-function build_potion_metrics(player)
+dashboard_behavior.build_potion_metrics = function (player)
 	local player_position = player.position
 	local player_surface = game.surfaces[1]
 	local player_force = game.forces["player"]

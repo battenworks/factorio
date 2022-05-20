@@ -18,7 +18,7 @@ local function new(player, global_player)
 	global_player.elements.train_city_dashboard = main_window
 
 	local title_bar_caption = { "bwtc.dashboard-caption" }
-	add_title_bar_to_gui(title_bar_caption, main_window)
+	common.add_title_bar_to_gui(title_bar_caption, main_window)
 
 	local content_frame = main_window.add{ type = "frame", direction = "vertical" }
 	content_frame.name = "content_frame"
@@ -44,18 +44,18 @@ local function new(player, global_player)
 
 	local items_scroll_pane = tabbed_pane.add{ type = "scroll-pane", direction = "vertical" }
 	local items_table = items_scroll_pane.add{ type = "table", column_count = 4 }
-	for _, card_model in pairs(build_item_card_models()) do
+	for _, card_model in pairs(dashboard_behavior.build_item_card_models()) do
 		item_card.add_card_to_table(card_model, items_table)
 	end
 
 	local fluids_scroll_pane = tabbed_pane.add{ type = "scroll-pane", direction = "vertical" }
 	local fluids_table = fluids_scroll_pane.add{ type = "table", column_count = 4 }
-	for _, card_model in pairs(build_fluid_card_models()) do
+	for _, card_model in pairs(dashboard_behavior.build_fluid_card_models()) do
 		item_card.add_card_to_table(card_model, fluids_table)
 	end
 
 	local potions_table = tabbed_pane.add{ type = "table", column_count = 1 }
-	for _, potion_metrics_model in pairs(build_potion_metrics(player)) do
+	for _, potion_metrics_model in pairs(dashboard_behavior.build_potion_metrics(player)) do
 		potion_metrics_card.add_card_to_table(potion_metrics_model, potions_table)
 	end
 
@@ -73,7 +73,7 @@ local function new(player, global_player)
 end
 
 dashboard.toggle = function (player)
-	local global_player = global_player.get(player)
+	local global_player = common.get_global_player(player)
 	local global_dashboard = global_player.elements.train_city_dashboard
 
 	if global_dashboard == nil then
@@ -85,7 +85,7 @@ dashboard.toggle = function (player)
 end
 
 dashboard.clear = function (player)
-	local global_player = global_player.get(player)
+	local global_player = common.get_global_player(player)
 
 	if global_player.elements.train_city_dashboard ~= nil then
 		dashboard.toggle(player)

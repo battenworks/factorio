@@ -1,4 +1,6 @@
-function parse_selected_item(schedule, item_type)
+train_behavior = {}
+
+train_behavior.parse_selected_item = function (schedule, item_type)
 	selected_item = nil
 
 	if schedule then
@@ -19,7 +21,7 @@ function parse_selected_item(schedule, item_type)
 	return selected_item
 end
 
-function render_station_list(container, schedule)
+train_behavior.render_station_list = function (container, schedule)
 	container.clear()
 	local station_list = container.add{
 		type = "table",

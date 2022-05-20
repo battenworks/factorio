@@ -4,7 +4,7 @@ require("ui.train_behavior")
 train_gui = {}
 
 local function new(player, global_player, entity, item_type, gui_name, button_name)
-	selected_item = parse_selected_item(entity.train.schedule, item_type)
+	selected_item = train_behavior.parse_selected_item(entity.train.schedule, item_type)
 
 	local main_window = player.gui.screen.add{ type = "frame", direction = "vertical" }
 	main_window.name = gui_name
@@ -15,7 +15,7 @@ local function new(player, global_player, entity, item_type, gui_name, button_na
 	global_player.entities.train_entity = entity.train
 
 	local title_bar_caption = { "entity-name.bwtc-" .. item_type .. "-train" }
-	add_title_bar_to_gui(title_bar_caption, main_window)
+	common.add_title_bar_to_gui(title_bar_caption, main_window)
 
 	local main_container = main_window.add{ type = "frame", direction = "vertical" }
 	main_container.name = "main_container"
@@ -43,14 +43,12 @@ local function new(player, global_player, entity, item_type, gui_name, button_na
 	local station_list_container = main_container.add{ type = "frame", direction = "vertical" }
 	station_list_container.name = "station_list_container"
 	station_list_container.style = "inside_shallow_frame_with_padding"
-	
+
 	if entity.train.schedule then
-		render_station_list(station_list_container, entity.train.schedule)
+		train_behavior.render_station_list(station_list_container, entity.train.schedule)
 	else
-		station_list_container.add{
-			type = "label",
-			caption = "None",
-		}
+		local station_list_label = station_list_container.add{ type = "label" }
+		station_list_label.caption = "None"
 	end
 end
 
@@ -58,7 +56,7 @@ train_gui.toggle = function (player, entity, item_type, gui_name, button_name)
 	train_gui.name = gui_name
 	train_gui.selection_button_name = button_name
 
-	local global_player = global_player.get(player)
+	local global_player = common.get_global_player(player)
 	local global_gui = global_player.elements.train_gui
 
 	if global_gui == nil then
@@ -71,7 +69,7 @@ train_gui.toggle = function (player, entity, item_type, gui_name, button_name)
 end
 
 train_gui.clear = function (player)
-	local global_player = global_player.get(player)
+	local global_player = common.get_global_player(player)
 
 	if global_player.elements.train_gui ~= nil then
 		train_gui.toggle(player)
@@ -79,7 +77,7 @@ train_gui.clear = function (player)
 end
 
 train_gui.configure_train = function (player)
-	local global_player = global_player.get(player)
+	local global_player = common.get_global_player(player)
 	local global_gui = global_player.elements.train_gui
 	local selected_item = global_gui.main_container.selection_container[train_gui.selection_button_name].elem_value or "none"
 
@@ -133,7 +131,7 @@ train_gui.configure_train = function (player)
 		}
 	}
 
-	render_station_list(global_gui.main_container.station_list_container, schedule)
+	train_behavior.render_station_list(global_gui.main_container.station_list_container, schedule)
 
 	local train = global_player.entities.train_entity
 	train.schedule = schedule
