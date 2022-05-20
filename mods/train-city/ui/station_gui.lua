@@ -6,58 +6,45 @@ station_gui = {}
 local function new(player, global_player, entity, item_type, gui_name, button_name, switch_name)
 	local selected_item, selected_direction = parse_selection_and_direction(entity.backer_name, item_type)
 
-	local main_window = player.gui.center.add{
-		type = "frame",
-		name = gui_name,
-		caption = { "entity-name.bwtc-" .. item_type .. "-station" },
-		style = "bwtc_gui_main_window",
-	}
+	local main_window = player.gui.screen.add{ type = "frame", direction = "vertical" }
+	main_window.name = gui_name
+	main_window.auto_center = true
 
 	player.opened = main_window
 	global_player.elements.station_gui = main_window
 	global_player.entities.station_entity = entity
 
-	local main_container = main_window.add{
-		type = "frame",
-		name = "main_container",
-		direction = "vertical",
-		style = "inside_shallow_frame_with_padding",
-	}
-	local selection_container = main_container.add{
-		type = "flow",
-		name = "selection_container",
-		direction = "horizontal",
-		style = "bwtc_station_selection_container",
-	}
-	selection_container.add{
-		type = "label",
-		caption = { "bwtc." .. item_type .. "-caption" },
-	}
-	local choose_item_button = selection_container.add{
-		type = "choose-elem-button",
-		name = button_name,
-		elem_type = item_type,
-	}
+	local title_bar_caption = { "entity-name.bwtc-" .. item_type .. "-station" }
+	add_title_bar_to_gui(title_bar_caption, main_window)
+
+	local main_container = main_window.add{ type = "frame", direction = "vertical" }
+	main_container.name = "main_container"
+	main_container.style = "inside_shallow_frame_with_padding"
+
+	local selection_container = main_container.add{ type = "flow", direction = "horizontal" }
+	selection_container.name = "selection_container"
+	selection_container.style = "bwtc_station_selection_container"
+
+	local selection_label = selection_container.add{ type = "label" }
+	selection_label.caption = { "bwtc." .. item_type .. "-caption" }
+
+	local choose_item_button = selection_container.add{ type = "choose-elem-button", elem_type = item_type }
+	choose_item_button.name = button_name
 	choose_item_button.elem_value = selected_item
-	local direction_container = main_container.add{
-		type = "flow",
-		name = "direction_container",
-		direction = "horizontal",
-		style = "bwtc_station_direction_container",
-	}
-	direction_container.add{
-		type = "label",
-		caption = { "bwtc.drop-caption" },
-	}
-	direction_container.add{
-		type = "switch",
-		name = switch_name,
-		switch_state = selected_direction,
-	}
-	direction_container.add{
-		type = "label",
-		caption = { "bwtc.load-caption" },
-	}
+
+	local direction_container = main_container.add{ type = "flow", direction = "horizontal" }
+	direction_container.name = "direction_container"
+	direction_container.style = "bwtc_station_direction_container"
+
+	local direction_drop_label = direction_container.add{ type = "label" }
+	direction_drop_label.caption = { "bwtc.drop-caption" }
+
+	local direction_switch = direction_container.add{ type = "switch" }
+	direction_switch.name = switch_name
+	direction_switch.switch_state = selected_direction
+
+	local direction_load_label = direction_container.add{ type = "label" }
+	direction_load_label.caption = { "bwtc.load-caption" }
 end
 
 station_gui.toggle = function (player, entity, item_type, gui_name, button_name, switch_name)

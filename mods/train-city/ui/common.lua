@@ -22,7 +22,7 @@ function add_title_bar_to_gui(title, gui)
 		direction = "horizontal",
 	}
 	title_bar.name = "title_bar"
-	title_bar.style.horizontally_stretchable = true
+	title_bar.drag_target = gui
 
 	local title_label = title_bar.add{
 		type = "label",
@@ -36,10 +36,11 @@ function add_title_bar_to_gui(title, gui)
 		type = "empty-widget"
 	}
 	drag_handle.name = "drag_handle"
-	drag_handle.drag_target = gui
-	drag_handle.style = "draggable_space"
+	drag_handle.ignored_by_interaction = true
+	drag_handle.style = "draggable_space_header"
 	drag_handle.style.height = 24
-	drag_handle.style.width = 830
+	drag_handle.style.horizontally_stretchable = true
+	drag_handle.style.right_margin = 4
 
 	local close_button = title_bar.add{ type = "sprite-button" }
 	close_button.name = "close_button"
@@ -48,5 +49,4 @@ function add_title_bar_to_gui(title, gui)
 	close_button.sprite = "utility/close_white"
 	close_button.style = "frame_action_button"
 	close_button.tooltip = { "bwtc.close-button-caption" }
-	-- actions = { on_click = { }},
 end

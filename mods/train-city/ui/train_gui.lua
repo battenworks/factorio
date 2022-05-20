@@ -6,56 +6,44 @@ train_gui = {}
 local function new(player, global_player, entity, item_type, gui_name, button_name)
 	selected_item = parse_selected_item(entity.train.schedule, item_type)
 
-	local main_window = player.gui.center.add{
-		type = "frame",
-		name = gui_name,
-		caption = { "entity-name.bwtc-" .. item_type .. "-train" },
-		style = "bwtc_gui_main_window",
-	}
+	local main_window = player.gui.screen.add{ type = "frame", direction = "vertical" }
+	main_window.name = gui_name
+	main_window.auto_center = true
 
 	player.opened = main_window
 	global_player.elements.train_gui = main_window
 	global_player.entities.train_entity = entity.train
 
-	local main_container = main_window.add{
-		type = "frame",
-		name = "main_container",
-		direction = "vertical",
-		style = "inside_shallow_frame",
-	}
-	local selection_container = main_container.add{
-		type = "flow",
-		name = "selection_container",
-		direction = "horizontal",
-		style = "bwtc_train_selection_container",
-	}
-	selection_container.add{
-		type = "label",
-		caption = { "bwtc." .. item_type .. "-caption" },
-	}
-	local selection_button = selection_container.add{
-		type = "choose-elem-button",
-		name = button_name,
-		elem_type = item_type,
-	}
+	local title_bar_caption = { "entity-name.bwtc-" .. item_type .. "-train" }
+	add_title_bar_to_gui(title_bar_caption, main_window)
+
+	local main_container = main_window.add{ type = "frame", direction = "vertical" }
+	main_container.name = "main_container"
+	main_container.style = "inside_shallow_frame"
+
+	local selection_container = main_container.add{ type = "flow", direction = "horizontal" }
+	selection_container.name = "selection_container"
+	selection_container.style = "bwtc_train_selection_container"
+
+	local selection_label = selection_container.add{ type = "label" }
+	selection_label.caption = { "bwtc." .. item_type .. "-caption" }
+
+	local selection_button = selection_container.add{ type = "choose-elem-button", elem_type = item_type }
+	selection_button.name = button_name
 	selection_button.elem_value = selected_item
-	local station_header = main_container.add{
-		type = "frame",
-		name = "station_header",
-		direction = "horizontal",
-		style = "bwtc_train_station_header",
-	}
-	station_header.add{
-		type = "label",
-		caption = { "bwtc.stations-caption" },
-		style = "bwtc_train_station_header_label",
-	}
-	local station_list_container = main_container.add{
-		type = "frame",
-		name = "station_list_container",
-		direction = "vertical",
-		style = "inside_shallow_frame_with_padding",
-	}
+
+	local station_header = main_container.add{ type = "frame", direction = "horizontal" }
+	station_header.name = "station_header"
+	station_header.style = "bwtc_train_station_header"
+
+	local station_label = station_header.add{ type = "label" }
+	station_label.caption = { "bwtc.stations-caption" }
+	station_label.style = "bwtc_train_station_header_label"
+
+	local station_list_container = main_container.add{ type = "frame", direction = "vertical" }
+	station_list_container.name = "station_list_container"
+	station_list_container.style = "inside_shallow_frame_with_padding"
+	
 	if entity.train.schedule then
 		render_station_list(station_list_container, entity.train.schedule)
 	else
