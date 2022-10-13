@@ -9,7 +9,6 @@ Inspiration from this thread: https://forums.factorio.com/viewtopic.php?f=80&t=5
     - Add logic to prevent train from moving if it doesn't have cargo wagons?
     - Add UI element to fix it?
     - Using logic added in a patch, send them all to a depot for fixing?
-- [ ] Fluid station blueprint defaults selection to water
 
 ### What could it do?
 - [x] Train type that transports players around the city.
@@ -33,7 +32,7 @@ Inspiration from this thread: https://forums.factorio.com/viewtopic.php?f=80&t=5
   - [ ] queue
   - [ ] warehouse
 - [ ] Role switcher for player to easily choose inventory by role (terraforming, infrastructure, pods, etc.).
-- [ ] Add close button to the entity UIs
+- [X] Add close button to the entity UIs
 - [ ] Add circuit metrics to the station UIs
 - [ ] Add ability to customize item name across the system. I'd like to nickname them.
     - `blue-circuit` in place of `processing-unit`, etc.
