@@ -1,21 +1,21 @@
 require("ui.common")
 require("ui.train_behavior")
 
-train_gui = {}
+train_view = {}
 
-local function new(player, global_player, entity, item_type, gui_name, button_name)
+local function new(player, global_player, entity, item_type, view_name, button_name)
 	selected_item = train_behavior.parse_selected_item(entity.train.schedule, item_type)
 
-	local main_window = player.gui.screen.add{ type = "frame", direction = "vertical" }
-	main_window.name = gui_name
+	local main_window = player.view.screen.add{ type = "frame", direction = "vertical" }
+	main_window.name = view_name
 	main_window.auto_center = true
 
 	player.opened = main_window
-	global_player.elements.train_gui = main_window
+	global_player.elements.train_view = main_window
 	global_player.entities.train_entity = entity.train
 
 	local title_bar_caption = { "entity-name.bwtc-" .. item_type .. "-train" }
-	common.add_title_bar_to_gui(title_bar_caption, main_window)
+	common.add_title_bar_to_view(title_bar_caption, main_window)
 
 	local main_container = main_window.add{ type = "frame", direction = "vertical" }
 	main_container.name = "main_container"
@@ -52,34 +52,34 @@ local function new(player, global_player, entity, item_type, gui_name, button_na
 	end
 end
 
-train_gui.toggle = function (player, entity, item_type, gui_name, button_name)
-	train_gui.name = gui_name
-	train_gui.selection_button_name = button_name
+train_view.toggle = function (player, entity, item_type, view_name, button_name)
+	train_view.name = view_name
+	train_view.selection_button_name = button_name
 
 	local global_player = common.get_global_player(player)
-	local global_gui = global_player.elements.train_gui
+	local global_view = global_player.elements.train_view
 
-	if global_gui == nil then
-		new(player, global_player, entity, item_type, gui_name, button_name)
+	if global_view == nil then
+		new(player, global_player, entity, item_type, view_name, button_name)
 	else
-		global_gui.destroy()
+		global_view.destroy()
 		global_player.elements = {}
 		global_player.entities = {}
 	end
 end
 
-train_gui.clear = function (player)
+train_view.clear = function (player)
 	local global_player = common.get_global_player(player)
 
-	if global_player.elements.train_gui ~= nil then
-		train_gui.toggle(player)
+	if global_player.elements.train_view ~= nil then
+		train_view.toggle(player)
 	end
 end
 
-train_gui.configure_train = function (player)
+train_view.configure_train = function (player)
 	local global_player = common.get_global_player(player)
-	local global_gui = global_player.elements.train_gui
-	local selected_item = global_gui.main_container.selection_container[train_gui.selection_button_name].elem_value or "none"
+	local global_view = global_player.elements.train_view
+	local selected_item = global_view.main_container.selection_container[train_view.selection_button_name].elem_value or "none"
 
 	local full_wait_condition = {
 		type = "full",
@@ -131,7 +131,7 @@ train_gui.configure_train = function (player)
 		}
 	}
 
-	train_behavior.render_station_list(global_gui.main_container.station_list_container, schedule)
+	train_behavior.render_station_list(global_view.main_container.station_list_container, schedule)
 
 	local train = global_player.entities.train_entity
 	train.schedule = schedule

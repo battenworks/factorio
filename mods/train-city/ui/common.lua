@@ -4,10 +4,10 @@ common.get_global_player = function (player)
 	return global.train_city[player.index]
 end
 
-common.add_title_bar_to_gui = function (title, gui)
-	local title_bar = gui.add{ type = "flow", direction = "horizontal" }
+common.add_title_bar_to_view = function (title, view)
+	local title_bar = view.add{ type = "flow", direction = "horizontal" }
 	title_bar.name = "title_bar"
-	title_bar.drag_target = gui
+	title_bar.drag_target = view
 
 	local title_label = title_bar.add{ type = "label" }
 	title_label.name = "title_label"

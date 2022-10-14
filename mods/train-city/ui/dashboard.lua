@@ -5,22 +5,22 @@ require("ui.potion_card")
 require("ui.fuel_station_card")
 require("ui.ammo_station_card")
 
-local gui_name = "bwtc_dashboard"
+local view_name = "bwtc_dashboard"
 
 dashboard = {
-	name = gui_name,
+	name = view_name,
 }
 
 local function new(player, global_player)
 	local main_window = player.gui.screen.add{ type = "frame", direction = "vertical" }
-	main_window.name = gui_name
+	main_window.name = view_name
 	main_window.auto_center = true
 
 	player.opened = main_window
 	global_player.elements.train_city_dashboard = main_window
 
 	local title_bar_caption = { "bwtc.dashboard-caption" }
-	common.add_title_bar_to_gui(title_bar_caption, main_window)
+	common.add_title_bar_to_view(title_bar_caption, main_window)
 
 	local content_frame = main_window.add{ type = "frame", direction = "vertical" }
 	content_frame.name = "content_frame"

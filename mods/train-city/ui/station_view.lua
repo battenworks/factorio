@@ -1,21 +1,21 @@
 require("ui.common")
 require("ui.station_behavior")
 
-station_gui = {}
+station_view = {}
 
-local function new(player, global_player, entity, item_type, gui_name, button_name, switch_name)
+local function new(player, global_player, entity, item_type, view_name, button_name, switch_name)
 	local selected_item, selected_direction = station_behavior.parse_selection_and_direction(entity.backer_name, item_type)
 
-	local main_window = player.gui.screen.add{ type = "frame", direction = "vertical" }
-	main_window.name = gui_name
+	local main_window = player.view.screen.add{ type = "frame", direction = "vertical" }
+	main_window.name = view_name
 	main_window.auto_center = true
 
 	player.opened = main_window
-	global_player.elements.station_gui = main_window
+	global_player.elements.station_view = main_window
 	global_player.entities.station_entity = entity
 
 	local title_bar_caption = { "entity-name.bwtc-" .. item_type .. "-station" }
-	common.add_title_bar_to_gui(title_bar_caption, main_window)
+	common.add_title_bar_to_view(title_bar_caption, main_window)
 
 	local main_container = main_window.add{ type = "frame", direction = "vertical" }
 	main_container.name = "main_container"
@@ -47,37 +47,37 @@ local function new(player, global_player, entity, item_type, gui_name, button_na
 	direction_load_label.caption = { "bwtc.load-caption" }
 end
 
-station_gui.toggle = function (player, entity, item_type, gui_name, button_name, switch_name)
-	station_gui.name = gui_name
-	station_gui.selection_button_name = button_name
-	station_gui.direction_switch_name = switch_name
+station_view.toggle = function (player, entity, item_type, view_name, button_name, switch_name)
+	station_view.name = view_name
+	station_view.selection_button_name = button_name
+	station_view.direction_switch_name = switch_name
 
 	local global_player = common.get_global_player(player)
-	local global_gui = global_player.elements.station_gui
+	local global_view = global_player.elements.station_view
 
-	if global_gui == nil then
-		new(player, global_player, entity, item_type, gui_name, button_name, switch_name)
+	if global_view == nil then
+		new(player, global_player, entity, item_type, view_name, button_name, switch_name)
 	else
-		global_gui.destroy()
+		global_view.destroy()
 		global_player.elements = {}
 		global_player.entities = {}
 	end
 end
 
-station_gui.clear = function (player)
+station_view.clear = function (player)
 	local global_player = common.get_global_player(player)
 
-	if global_player.elements.station_gui ~= nil then
-		station_gui.toggle(player)
+	if global_player.elements.station_view ~= nil then
+		station_view.toggle(player)
 	end
 end
 
-station_gui.configure_train_station = function (player, item_type)
+station_view.configure_train_station = function (player, item_type)
 	local global_player = common.get_global_player(player)
-	local global_gui = global_player.elements.station_gui
+	local global_view = global_player.elements.station_view
 	local train_station = global_player.entities.station_entity
-	local selected_item_name = global_gui.main_container.selection_container[station_gui.selection_button_name].elem_value or "none"
-	local switch_direction = global_gui.main_container.direction_container[station_gui.direction_switch_name].switch_state
+	local selected_item_name = global_view.main_container.selection_container[station_view.selection_button_name].elem_value or "none"
+	local switch_direction = global_view.main_container.direction_container[station_view.direction_switch_name].switch_state
 	local selected_direction = switch_direction == "left" and "drop" or "load"
 
 	if station_behavior.is_already_associated_with_an_item(train_station.backer_name, item_type) then

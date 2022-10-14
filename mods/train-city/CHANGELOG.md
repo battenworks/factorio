@@ -1,3 +1,13 @@
+# 0.3.0
+
+## Planned
+Add some inventory data to the ammo and fuel tabs of the dashboard.
+
+Change domain language to:
+- replace `gui` with `view`
+- replace `card` with `view_model`, or `vm`
+- replace `behavior` with `?`?
+
 # 0.2.1
 
 ## Bug Fix
