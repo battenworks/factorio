@@ -101,6 +101,25 @@ dashboard_behavior.build_potion_card_models = function (player)
 	return potion_cards
 end
 
+local function find_attached_chest(station, item_name)
+	if station.circuit_connected_entities.green[1] and station.circuit_connected_entities.green[1].name == item_name then
+		return station.circuit_connected_entities.green[1]
+	elseif station.circuit_connected_entities.red[1] and station.circuit_connected_entities.red[1].name == item_name then
+		return station.circuit_connected_entities.red[1]
+	end
+end
+
+local function get_fuel_count(station)
+	local fuel_count = "Unable to read fuel inventory"
+	local chest = find_attached_chest(station, "logistic-chest-requester")
+
+	if chest then
+		fuel_count = chest.get_item_count("rocket-fuel")
+	end
+
+	return fuel_count
+end
+
 dashboard_behavior.build_fuel_station_card_models = function ()
 	local fuel_station_cards = {}
 	local fuel_stations = game.get_train_stops({ name = "fuel" })
@@ -108,13 +127,24 @@ dashboard_behavior.build_fuel_station_card_models = function ()
 	for _, station in pairs(fuel_stations) do
 		local fuel_station_card = {
 			name = station.backer_name,
-			count = station.circuit_connected_entities.green[1].get_item_count("rocket-fuel"),
+			count = get_fuel_count(station),
 		}
 
 		table.insert(fuel_station_cards, fuel_station_card)
 	end
 
 	return fuel_station_cards
+end
+
+local function get_ammo_count(station)
+	local ammo_count = "Unable to read ammo inventory"
+	local chest = find_attached_chest(station, "steel-chest")
+
+	if chest then
+		ammo_count = chest.get_item_count("uranium-rounds-magazine")
+	end
+
+	return ammo_count
 end
 
 dashboard_behavior.build_ammo_station_card_models = function ()
@@ -124,7 +154,7 @@ dashboard_behavior.build_ammo_station_card_models = function ()
 	for _, station in pairs(ammo_stations) do
 		local ammo_station_card = {
 			name = station.backer_name,
-			count = station.circuit_connected_entities.green[1].get_item_count("uranium-rounds-magazine"),
+			count = get_ammo_count(station),
 		}
 
 		table.insert(ammo_station_cards, ammo_station_card)
