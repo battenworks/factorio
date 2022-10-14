@@ -102,10 +102,12 @@ dashboard_behavior.build_potion_card_models = function (player)
 end
 
 local function find_attached_chest(station, item_name)
-	if station.circuit_connected_entities.green[1] and station.circuit_connected_entities.green[1].name == item_name then
-		return station.circuit_connected_entities.green[1]
-	elseif station.circuit_connected_entities.red[1] and station.circuit_connected_entities.red[1].name == item_name then
-		return station.circuit_connected_entities.red[1]
+	for _, circuit in pairs(station.circuit_connected_entities) do
+		for _, chest in pairs(circuit) do
+			if chest.name == item_name then
+				return chest
+			end
+		end
 	end
 end
 
