@@ -1,7 +1,8 @@
 require("ui.common")
 require("ui.dashboard_behavior")
 require("ui.item_card")
-require("ui.potion_metrics_card")
+require("ui.potion_card")
+require("ui.fuel_station_card")
 
 local gui_name = "bwtc_dashboard"
 
@@ -33,8 +34,8 @@ local function new(player, global_player)
 	local fluids_tab = tabbed_pane.add{ type = "tab" }
 	fluids_tab.caption = { "bwtc.fluids-caption" }
 
-	local fuel_tab = tabbed_pane.add{ type = "tab" }
-	fuel_tab.caption = { "bwtc.fuel-caption" }
+	local fuel_stations_tab = tabbed_pane.add{ type = "tab" }
+	fuel_stations_tab.caption = { "bwtc.fuel-caption" }
 
 	local ammo_tab = tabbed_pane.add{ type = "tab" }
 	ammo_tab.caption = { "bwtc.ammo-caption" }
@@ -55,12 +56,15 @@ local function new(player, global_player)
 	end
 
 	local potions_table = tabbed_pane.add{ type = "table", column_count = 1 }
-	for _, potion_metrics_model in pairs(dashboard_behavior.build_potion_metrics(player)) do
-		potion_metrics_card.add_card_to_table(potion_metrics_model, potions_table)
+	for _, card_model in pairs(dashboard_behavior.build_potion_card_models(player)) do
+		potion_card.add_card_to_table(card_model, potions_table)
 	end
 
-	local fuel_label = tabbed_pane.add{ type = "label" }
-	fuel_label.caption = "Fuel stuff goes here"
+	local fuel_stations_scroll_pane = tabbed_pane.add{ type = "scroll-pane", direction = "vertical" }
+	local fuel_stations_table = fuel_stations_scroll_pane.add{ type = "table", column_count = 1 }
+	for _, card_model in pairs(dashboard_behavior.build_fuel_station_card_models()) do
+		fuel_station_card.add_card_to_table(card_model, fuel_stations_table)
+	end
 
 	local ammo_label = tabbed_pane.add{ type = "label" }
 	ammo_label.caption = "Ammo stuff goes here"
@@ -68,7 +72,7 @@ local function new(player, global_player)
 	tabbed_pane.add_tab(items_tab, items_scroll_pane)
 	tabbed_pane.add_tab(fluids_tab, fluids_scroll_pane)
 	tabbed_pane.add_tab(potions_tab, potions_table)
-	tabbed_pane.add_tab(fuel_tab, fuel_label)
+	tabbed_pane.add_tab(fuel_stations_tab, fuel_stations_scroll_pane)
 	tabbed_pane.add_tab(ammo_tab, ammo_label)
 end
 

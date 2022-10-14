@@ -63,13 +63,13 @@ dashboard_behavior.build_fluid_card_models = function ()
 	return fluid_cards
 end
 
-dashboard_behavior.build_potion_metrics = function (player)
+dashboard_behavior.build_potion_card_models = function (player)
 	local player_position = player.position
 	local player_surface = game.surfaces[1]
 	local player_force = game.forces["player"]
 	local current_logistic_network = player_surface.find_logistic_network_by_position(player_position, player_force)
 
-	local potion_metrics = {}
+	local potion_cards = {}
 	local potions = game.get_filtered_item_prototypes({
 		{
 			filter = "subgroup",
@@ -90,13 +90,29 @@ dashboard_behavior.build_potion_metrics = function (player)
 			item_count = current_logistic_network.get_item_count(potion.name)
 		end
 
-		local potion_metric = {
+		local potion_card = {
 			name = potion.name,
 			count = item_count,
 		}
 
-		table.insert(potion_metrics, potion_metric)
+		table.insert(potion_cards, potion_card)
 	end
 
-	return potion_metrics
+	return potion_cards
+end
+
+dashboard_behavior.build_fuel_station_card_models = function ()
+	local fuel_station_cards = {}
+	local fuel_stations = game.get_train_stops({ name = "fuel" })
+
+	for _, station in pairs(fuel_stations) do
+		local fuel_station_card = {
+			name = station.backer_name,
+			count = station.circuit_connected_entities.green[1].get_item_count("rocket-fuel"),
+		}
+
+		table.insert(fuel_station_cards, fuel_station_card)
+	end
+
+	return fuel_station_cards
 end

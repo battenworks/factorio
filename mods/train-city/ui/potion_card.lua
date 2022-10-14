@@ -1,8 +1,8 @@
-potion_metrics_card = {}
+potion_card = {}
 
-potion_metrics_card.add_card_to_table = function (model, potion_metrics_table)
+potion_card.add_card_to_table = function (model, potions_table)
 	local sprite_path = "item/" .. model.name
-	local card_frame = potion_metrics_table.add{
+	local card_frame = potions_table.add{
 		type = "frame",
 		direction = "vertical",
 	}
