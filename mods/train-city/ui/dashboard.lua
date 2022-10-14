@@ -3,6 +3,7 @@ require("ui.dashboard_behavior")
 require("ui.item_card")
 require("ui.potion_card")
 require("ui.fuel_station_card")
+require("ui.ammo_station_card")
 
 local gui_name = "bwtc_dashboard"
 
@@ -66,14 +67,17 @@ local function new(player, global_player)
 		fuel_station_card.add_card_to_table(card_model, fuel_stations_table)
 	end
 
-	local ammo_label = tabbed_pane.add{ type = "label" }
-	ammo_label.caption = "Ammo stuff goes here"
+	local ammo_stations_scroll_pane = tabbed_pane.add{ type = "scroll-pane", direction = "vertical" }
+	local ammo_stations_table = ammo_stations_scroll_pane.add{ type = "table", column_count = 1 }
+	for _, card_model in pairs(dashboard_behavior.build_ammo_station_card_models()) do
+		ammo_station_card.add_card_to_table(card_model, ammo_stations_table)
+	end
 
 	tabbed_pane.add_tab(items_tab, items_scroll_pane)
 	tabbed_pane.add_tab(fluids_tab, fluids_scroll_pane)
 	tabbed_pane.add_tab(potions_tab, potions_table)
 	tabbed_pane.add_tab(fuel_stations_tab, fuel_stations_scroll_pane)
-	tabbed_pane.add_tab(ammo_tab, ammo_label)
+	tabbed_pane.add_tab(ammo_tab, ammo_stations_scroll_pane)
 end
 
 dashboard.toggle = function (player)

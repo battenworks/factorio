@@ -116,3 +116,19 @@ dashboard_behavior.build_fuel_station_card_models = function ()
 
 	return fuel_station_cards
 end
+
+dashboard_behavior.build_ammo_station_card_models = function ()
+	local ammo_station_cards = {}
+	local ammo_stations = game.get_train_stops({ name = "ammo drop" })
+
+	for _, station in pairs(ammo_stations) do
+		local ammo_station_card = {
+			name = station.backer_name,
+			count = station.circuit_connected_entities.green[1].get_item_count("uranium-rounds-magazine"),
+		}
+
+		table.insert(ammo_station_cards, ammo_station_card)
+	end
+
+	return ammo_station_cards
+end
