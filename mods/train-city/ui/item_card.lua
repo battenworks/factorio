@@ -17,7 +17,7 @@ item_card.add_card_to_table = function (model, item_table)
 		style = "bwtc_item_card_sprite_button_container",
 	}
 	sprite_button_container.add{
-		type = "sprite-button",
+		type = "sprite",
 		sprite = (sprite_path),
 		tags = {
 			action = "show_item_card_detail",

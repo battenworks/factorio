@@ -12,7 +12,7 @@ potion_card.add_card_to_table = function (model, potions_table)
 		style = "bwtc_potion_metrics_line_item",
 	}
 	line_item.add{
-		type = "sprite-button",
+		type = "sprite",
 		sprite = (sprite_path),
 		tags = {
 			action = "show_potion_metrics_detail",

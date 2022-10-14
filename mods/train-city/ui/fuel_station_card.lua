@@ -11,7 +11,7 @@ fuel_station_card.add_card_to_table = function (model, fuel_stations_table)
 		style = "bwtc_potion_metrics_line_item",
 	}
 	line_item.add{
-		type = "sprite-button",
+		type = "sprite",
 		sprite = "item/rocket-fuel",
 	}
 	line_item.add{
