@@ -1,9 +1,9 @@
 require("ui.common")
 require("ui.dashboard_behavior")
-require("ui.item_card")
-require("ui.potion_card")
-require("ui.fuel_station_card")
-require("ui.ammo_station_card")
+require("ui.item_view_model")
+require("ui.potion_view_model")
+require("ui.fuel_station_view_model")
+require("ui.ammo_station_view_model")
 
 local view_name = "bwtc_dashboard"
 
@@ -46,31 +46,31 @@ local function new(player, global_player)
 
 	local items_scroll_pane = tabbed_pane.add{ type = "scroll-pane", direction = "vertical" }
 	local items_table = items_scroll_pane.add{ type = "table", column_count = 4 }
-	for _, card_model in pairs(dashboard_behavior.build_item_card_models()) do
-		item_card.add_card_to_table(card_model, items_table)
+	for _, view_model in pairs(dashboard_behavior.build_item_view_models()) do
+		item_view_model.add_view_model_to_table(view_model, items_table)
 	end
 
 	local fluids_scroll_pane = tabbed_pane.add{ type = "scroll-pane", direction = "vertical" }
 	local fluids_table = fluids_scroll_pane.add{ type = "table", column_count = 4 }
-	for _, card_model in pairs(dashboard_behavior.build_fluid_card_models()) do
-		item_card.add_card_to_table(card_model, fluids_table)
+	for _, view_model in pairs(dashboard_behavior.build_fluid_view_models()) do
+		item_view_model.add_view_model_to_table(view_model, fluids_table)
 	end
 
 	local potions_table = tabbed_pane.add{ type = "table", column_count = 1 }
-	for _, card_model in pairs(dashboard_behavior.build_potion_card_models(player)) do
-		potion_card.add_card_to_table(card_model, potions_table)
+	for _, view_model in pairs(dashboard_behavior.build_potion_view_models(player)) do
+		potion_view_model.add_view_model_to_table(view_model, potions_table)
 	end
 
 	local fuel_stations_scroll_pane = tabbed_pane.add{ type = "scroll-pane", direction = "vertical" }
 	local fuel_stations_table = fuel_stations_scroll_pane.add{ type = "table", column_count = 1 }
-	for _, card_model in pairs(dashboard_behavior.build_fuel_station_card_models()) do
-		fuel_station_card.add_card_to_table(card_model, fuel_stations_table)
+	for _, view_model in pairs(dashboard_behavior.build_fuel_station_view_models()) do
+		fuel_station_view_model.add_view_model_to_table(view_model, fuel_stations_table)
 	end
 
 	local ammo_stations_scroll_pane = tabbed_pane.add{ type = "scroll-pane", direction = "vertical" }
 	local ammo_stations_table = ammo_stations_scroll_pane.add{ type = "table", column_count = 1 }
-	for _, card_model in pairs(dashboard_behavior.build_ammo_station_card_models()) do
-		ammo_station_card.add_card_to_table(card_model, ammo_stations_table)
+	for _, view_model in pairs(dashboard_behavior.build_ammo_station_view_models()) do
+		ammo_station_view_model.add_view_model_to_table(view_model, ammo_stations_table)
 	end
 
 	tabbed_pane.add_tab(items_tab, items_scroll_pane)

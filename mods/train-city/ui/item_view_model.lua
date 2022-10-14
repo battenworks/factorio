@@ -1,33 +1,33 @@
-item_card = {}
+item_view_model = {}
 
-item_card.add_card_to_table = function (model, item_table)
+item_view_model.add_view_model_to_table = function (model, item_table)
 	local sprite_path = model.item_type == "item" and "item/" .. model.item.name or "fluid/" .. model.item.name
-	local card_frame = item_table.add{
+	local view_model_frame = item_table.add{
 		type = "frame",
 		direction = "vertical",
 	}
-	local card_header = card_frame.add{
+	local view_model_header = view_model_frame.add{
 		type = "flow",
 		direction = "horizontal",
-		style = "bwtc_item_card_header",
+		style = "bwtc_item_view_model_header",
 	}
-	local sprite_button_container = card_header.add{
+	local sprite_button_container = view_model_header.add{
 		type = "flow",
 		direction = "vertical",
-		style = "bwtc_item_card_sprite_button_container",
+		style = "bwtc_item_view_model_sprite_button_container",
 	}
 	sprite_button_container.add{
 		type = "sprite",
 		sprite = (sprite_path),
 		tags = {
-			action = "show_item_card_detail",
+			action = "show_item_view_model_detail",
 			item = model.item.name,
 		}
 	}
-	local station_label_container = card_header.add{
+	local station_label_container = view_model_header.add{
 		type = "flow",
 		direction = "vertical",
-		style = "bwtc_item_card_station_label_container",
+		style = "bwtc_item_view_model_station_label_container",
 	}
 	station_label_container.add{
 		type = "label",
@@ -37,19 +37,19 @@ item_card.add_card_to_table = function (model, item_table)
 		type = "label",
 		caption = "Drop stations: " .. model.drop_station_count,
 	}
-	local card_footer = card_frame.add{
+	local view_model_footer = view_model_frame.add{
 		type = "flow",
 		direction = "horizontal",
-		style = "bwtc_item_card_footer",
+		style = "bwtc_item_view_model_footer",
 	}
-	local train_label_container = card_footer.add{
+	local train_label_container = view_model_footer.add{
 		type = "flow",
 		direction = "vertical",
-		style = "bwtc_item_card_train_label_container",
+		style = "bwtc_item_view_model_train_label_container",
 	}
 	train_label_container.add{
 		type = "label",
 		caption = "Trains: " .. model.configured_train_count,
-		style = "bwtc_item_card_train_label",
+		style = "bwtc_item_view_model_train_label",
 	}
 end

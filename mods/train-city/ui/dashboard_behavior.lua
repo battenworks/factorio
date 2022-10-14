@@ -15,15 +15,15 @@ local function get_configured_train_count(item_name)
 	return train_count
 end
 
-dashboard_behavior.build_item_card_models = function ()
-	local item_cards = {}
+dashboard_behavior.build_item_view_models = function ()
+	local item_view_models = {}
 
 	for _, item in pairs(game.item_prototypes) do
 		local load_stations = game.get_train_stops({ name = item.name .. " load" })
 		local drop_stations = game.get_train_stops({ name = item.name .. " drop" })
 
 		if load_stations[1] or drop_stations[1] then
-			local item_card = {
+			local item_view_model = {
 				item = item,
 				item_type = "item",
 				load_station_count = #load_stations,
@@ -32,22 +32,22 @@ dashboard_behavior.build_item_card_models = function ()
 				fueling_count = 666,
 			}
 
-			table.insert(item_cards, item_card)
+			table.insert(item_view_models, item_view_model)
 		end
 	end
 
-	return item_cards
+	return item_view_models
 end
 
-dashboard_behavior.build_fluid_card_models = function ()
-	local fluid_cards = {}
+dashboard_behavior.build_fluid_view_models = function ()
+	local fluid_view_models = {}
 
 	for _, fluid in pairs(game.fluid_prototypes) do
 		local load_stations = game.get_train_stops({ name = fluid.name .. " load" })
 		local drop_stations = game.get_train_stops({ name = fluid.name .. " drop" })
 
 		if load_stations[1] or drop_stations[1] then
-			local fluid_card = {
+			local fluid_view_model = {
 				item = fluid,
 				item_type = "fluid",
 				load_station_count = #load_stations,
@@ -56,20 +56,20 @@ dashboard_behavior.build_fluid_card_models = function ()
 				fueling_count = 666,
 			}
 
-			table.insert(fluid_cards, fluid_card)
+			table.insert(fluid_view_models, fluid_view_model)
 		end
 	end
 
-	return fluid_cards
+	return fluid_view_models
 end
 
-dashboard_behavior.build_potion_card_models = function (player)
+dashboard_behavior.build_potion_view_models = function (player)
 	local player_position = player.position
 	local player_surface = game.surfaces[1]
 	local player_force = game.forces["player"]
 	local current_logistic_network = player_surface.find_logistic_network_by_position(player_position, player_force)
 
-	local potion_cards = {}
+	local potion_view_models = {}
 	local potions = game.get_filtered_item_prototypes({
 		{
 			filter = "subgroup",
@@ -90,15 +90,15 @@ dashboard_behavior.build_potion_card_models = function (player)
 			item_count = current_logistic_network.get_item_count(potion.name)
 		end
 
-		local potion_card = {
+		local potion_view_model = {
 			name = potion.name,
 			count = item_count,
 		}
 
-		table.insert(potion_cards, potion_card)
+		table.insert(potion_view_models, potion_view_model)
 	end
 
-	return potion_cards
+	return potion_view_models
 end
 
 local function find_attached_chest(station, item_name)
@@ -122,20 +122,20 @@ local function get_fuel_count(station)
 	return fuel_count
 end
 
-dashboard_behavior.build_fuel_station_card_models = function ()
-	local fuel_station_cards = {}
+dashboard_behavior.build_fuel_station_view_models = function ()
+	local fuel_station_view_models = {}
 	local fuel_stations = game.get_train_stops({ name = "fuel" })
 
 	for _, station in pairs(fuel_stations) do
-		local fuel_station_card = {
+		local fuel_station_view_model = {
 			name = station.backer_name,
 			count = get_fuel_count(station),
 		}
 
-		table.insert(fuel_station_cards, fuel_station_card)
+		table.insert(fuel_station_view_models, fuel_station_view_model)
 	end
 
-	return fuel_station_cards
+	return fuel_station_view_models
 end
 
 local function get_ammo_count(station)
@@ -149,18 +149,18 @@ local function get_ammo_count(station)
 	return ammo_count
 end
 
-dashboard_behavior.build_ammo_station_card_models = function ()
-	local ammo_station_cards = {}
+dashboard_behavior.build_ammo_station_view_models = function ()
+	local ammo_station_view_models = {}
 	local ammo_stations = game.get_train_stops({ name = "ammo drop" })
 
 	for _, station in pairs(ammo_stations) do
-		local ammo_station_card = {
+		local ammo_station_view_model = {
 			name = station.backer_name,
 			count = get_ammo_count(station),
 		}
 
-		table.insert(ammo_station_cards, ammo_station_card)
+		table.insert(ammo_station_view_models, ammo_station_view_model)
 	end
 
-	return ammo_station_cards
+	return ammo_station_view_models
 end

@@ -10,36 +10,36 @@ styles["bwtc_tabbed_pane"] = {
 	size = { 950, 580 },
 }
 
-styles["bwtc_item_card_header"] = {
+styles["bwtc_item_view_model_header"] = {
 	type = "horizontal_flow_style",
 	bottom_margin = 5,
 	horizontal_align = "center",
 	horizontally_stretchable = "on",
 }
 
-styles["bwtc_item_card_sprite_button_container"] = {
+styles["bwtc_item_view_model_sprite_button_container"] = {
 	type = "vertical_flow_style",
 	top_margin = 3,
 }
 
-styles["bwtc_item_card_station_label_container"] = {
+styles["bwtc_item_view_model_station_label_container"] = {
 	type = "vertical_flow_style",
 	left_margin = 15,
 }
 
-styles["bwtc_item_card_footer"] = {
+styles["bwtc_item_view_model_footer"] = {
 	type = "horizontal_flow_style",
 	horizontal_align = "center",
 	horizontally_stretchable = "on",
 }
 
-styles["bwtc_item_card_train_label_container"] = {
+styles["bwtc_item_view_model_train_label_container"] = {
 	type = "vertical_flow_style",
 	horizontal_align = "right",
 	right_margin = 15,
 }
 
-styles["bwtc_item_card_train_label"] = {
+styles["bwtc_item_view_model_train_label"] = {
 	type = "label_style",
 	top_margin = 5,
 }

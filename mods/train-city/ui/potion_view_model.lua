@@ -1,12 +1,12 @@
-potion_card = {}
+potion_view_model = {}
 
-potion_card.add_card_to_table = function (model, potions_table)
+potion_view_model.add_view_model_to_table = function (model, potions_table)
 	local sprite_path = "item/" .. model.name
-	local card_frame = potions_table.add{
+	local view_model_frame = potions_table.add{
 		type = "frame",
 		direction = "vertical",
 	}
-	local line_item = card_frame.add{
+	local line_item = view_model_frame.add{
 		type = "flow",
 		direction = "horizontal",
 		style = "bwtc_potion_metrics_line_item",
