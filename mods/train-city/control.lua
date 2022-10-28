@@ -23,10 +23,10 @@ script.on_configuration_changed(
 		if config_changed_data.mod_changes["train-city"] then
 			for _, player in pairs(game.players) do
 				dashboard.clear(player)
-				fluid_station_gui.clear(player)
-				fluid_train_gui.clear(player)
-				item_station_gui.clear(player)
-				item_train_gui.clear(player)
+				fluid_station_view.clear(player)
+				fluid_train_view.clear(player)
+				item_station_view.clear(player)
+				item_train_view.clear(player)
 			end
 		end
 	end
@@ -56,13 +56,13 @@ script.on_event(defines.events.on_gui_opened,
 
 		if event.gui_type == defines.gui_type.entity and event.entity then
 			if event.entity.name == "bwtc-fluid-station" then
-				fluid_station_gui.toggle(player, event.entity)
+				fluid_station_view.toggle(player, event.entity)
 			elseif event.entity.name == "bwtc-fluid-train" then
-				fluid_train_gui.toggle(player, event.entity)
+				fluid_train_view.toggle(player, event.entity)
 			elseif event.entity.name == "bwtc-item-station" then
-				item_station_gui.toggle(player, event.entity)
+				item_station_view.toggle(player, event.entity)
 			elseif event.entity.name == "bwtc-item-train" then
-				item_train_gui.toggle(player, event.entity)
+				item_train_view.toggle(player, event.entity)
 			end
 		end
 	end
@@ -75,14 +75,14 @@ script.on_event(defines.events.on_gui_closed,
 		if event.element then
 			if event.element.name == dashboard.name then
 				dashboard.toggle(player)
-			elseif event.element.name == fluid_station_gui.name then
-				fluid_station_gui.toggle(player)
-			elseif event.element.name == fluid_train_gui.name then
-				fluid_train_gui.toggle(player)
-			elseif event.element.name == item_station_gui.name then
-				item_station_gui.toggle(player)
-			elseif event.element.name == item_train_gui.name then
-				item_train_gui.toggle(player)
+			elseif event.element.name == fluid_station_view.name then
+				fluid_station_view.toggle(player)
+			elseif event.element.name == fluid_train_view.name then
+				fluid_train_view.toggle(player)
+			elseif event.element.name == item_station_view.name then
+				item_station_view.toggle(player)
+			elseif event.element.name == item_train_view.name then
+				item_train_view.toggle(player)
 			end
 		end
 	end
@@ -93,14 +93,14 @@ script.on_event(defines.events.on_gui_elem_changed,
 		local player = game.get_player(event.player_index)
 
 		if event.element then
-			if event.element.name == fluid_station_gui.selection_button_name then
-				fluid_station_gui.configure_train_station(player)
-			elseif event.element.name == fluid_train_gui.selection_button_name then
-				fluid_train_gui.configure_train(player)
-			elseif event.element.name == item_station_gui.selection_button_name then
-				item_station_gui.configure_train_station(player)
-			elseif event.element.name == item_train_gui.selection_button_name then
-				item_train_gui.configure_train(player)
+			if event.element.name == fluid_station_view.selection_button_name then
+				fluid_station_view.configure_train_station(player)
+			elseif event.element.name == fluid_train_view.selection_button_name then
+				fluid_train_view.configure_train(player)
+			elseif event.element.name == item_station_view.selection_button_name then
+				item_station_view.configure_train_station(player)
+			elseif event.element.name == item_train_view.selection_button_name then
+				item_train_view.configure_train(player)
 			end
 		end
 	end
@@ -111,10 +111,10 @@ script.on_event(defines.events.on_gui_switch_state_changed,
 		local player = game.get_player(event.player_index)
 
 		if event.element then
-			if event.element.name == fluid_station_gui.direction_switch_name then
-				fluid_station_gui.configure_train_station(player)
-			elseif event.element.name == item_station_gui.direction_switch_name then
-				item_station_gui.configure_train_station(player)
+			if event.element.name == fluid_station_view.direction_switch_name then
+				fluid_station_view.configure_train_station(player)
+			elseif event.element.name == item_station_view.direction_switch_name then
+				item_station_view.configure_train_station(player)
 			end
 		end
 	end
@@ -128,14 +128,14 @@ script.on_event(defines.events.on_gui_click,
 			if event.element.name == "close_button" then
 				if event.element.parent.parent.name == dashboard.name then
 					dashboard.toggle(player)
-				elseif event.element.parent.parent.name == fluid_station_gui.name then
-					fluid_station_gui.toggle(player)
-				elseif event.element.parent.parent.name == fluid_train_gui.name then
-					fluid_train_gui.toggle(player)
-				elseif event.element.parent.parent.name == item_station_gui.name then
-					item_station_gui.toggle(player)
-				elseif event.element.parent.parent.name == item_train_gui.name then
-					item_train_gui.toggle(player)
+				elseif event.element.parent.parent.name == fluid_station_view.name then
+					fluid_station_view.toggle(player)
+				elseif event.element.parent.parent.name == fluid_train_view.name then
+					fluid_train_view.toggle(player)
+				elseif event.element.parent.parent.name == item_station_view.name then
+					item_station_view.toggle(player)
+				elseif event.element.parent.parent.name == item_train_view.name then
+					item_train_view.toggle(player)
 				end
 			end
 		end
