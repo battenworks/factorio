@@ -6,7 +6,7 @@ train_view = {}
 local function new(player, global_player, entity, item_type, view_name, button_name)
 	selected_item = train_behavior.parse_selected_item(entity.train.schedule, item_type)
 
-	local main_window = player.view.screen.add{ type = "frame", direction = "vertical" }
+	local main_window = player.gui.screen.add{ type = "frame", direction = "vertical" }
 	main_window.name = view_name
 	main_window.auto_center = true
 
