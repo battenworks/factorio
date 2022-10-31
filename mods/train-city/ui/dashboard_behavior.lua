@@ -15,7 +15,7 @@ local function get_configured_train_count(item_name)
 	return train_count
 end
 
-dashboard_behavior.build_item_view_models = function ()
+dashboard_behavior.build_item_view_models = function()
 	local item_view_models = {}
 
 	for _, item in pairs(game.item_prototypes) do
@@ -39,7 +39,7 @@ dashboard_behavior.build_item_view_models = function ()
 	return item_view_models
 end
 
-dashboard_behavior.build_fluid_view_models = function ()
+dashboard_behavior.build_fluid_view_models = function()
 	local fluid_view_models = {}
 
 	for _, fluid in pairs(game.fluid_prototypes) do
@@ -63,7 +63,7 @@ dashboard_behavior.build_fluid_view_models = function ()
 	return fluid_view_models
 end
 
-dashboard_behavior.build_potion_view_models = function (player)
+dashboard_behavior.build_potion_view_models = function(player)
 	local player_position = player.position
 	local player_surface = game.surfaces[1]
 	local player_force = game.forces["player"]
@@ -122,7 +122,7 @@ local function get_fuel_count(station)
 	return fuel_count
 end
 
-dashboard_behavior.build_fuel_station_view_models = function ()
+dashboard_behavior.build_fuel_station_view_models = function()
 	local fuel_station_view_models = {}
 	local fuel_stations = game.get_train_stops({ name = "fuel" })
 
@@ -149,7 +149,7 @@ local function get_ammo_count(station)
 	return ammo_count
 end
 
-dashboard_behavior.build_ammo_station_view_models = function ()
+dashboard_behavior.build_ammo_station_view_models = function()
 	local ammo_station_view_models = {}
 	local ammo_stations = game.get_train_stops({ name = "ammo drop" })
 

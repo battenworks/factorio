@@ -1,6 +1,6 @@
 station_behavior = {}
 
-station_behavior.parse_selection_and_direction = function (backer_name, item_type)
+station_behavior.parse_selection_and_direction = function(backer_name, item_type)
 	selected_item = nil
 	local words = {}
 
@@ -19,11 +19,11 @@ station_behavior.parse_selection_and_direction = function (backer_name, item_typ
 	return selected_item, selected_direction
 end
 
-station_behavior.is_already_associated_with_an_item = function (backer_name, item_type)
+station_behavior.is_already_associated_with_an_item = function(backer_name, item_type)
 	return station_behavior.parse_selection_and_direction(backer_name, item_type) ~= nil
 end
 
-station_behavior.find_all_trains_associated_with_station = function (station_name)
+station_behavior.find_all_trains_associated_with_station = function(station_name)
 	local associated_trains = {}
 
 	for _, train in pairs(game.surfaces[1].get_trains()) do
@@ -112,7 +112,8 @@ local function build_circuit_condition(selected_item_name, item_type, selected_d
 	end
 end
 
-station_behavior.set_new_train_station_configuration = function (train_station, selected_item_name, item_type, selected_direction)
+station_behavior.set_new_train_station_configuration = function(train_station, selected_item_name, item_type,
+                                                                selected_direction)
 	local control_behavior = train_station.get_or_create_control_behavior()
 	control_behavior.enable_disable = true
 	control_behavior.circuit_condition = build_circuit_condition(selected_item_name, item_type, selected_direction)
@@ -121,7 +122,7 @@ station_behavior.set_new_train_station_configuration = function (train_station, 
 	train_station.trains_limit = 1
 end
 
-station_behavior.reassociate_trains_with_old_schedule = function (trains, schedule)
+station_behavior.reassociate_trains_with_old_schedule = function(trains, schedule)
 	for _, train in pairs(trains) do
 		train.schedule = schedule
 	end

@@ -9,14 +9,14 @@ item_train_view = {
 	selection_button_name = selection_button_name,
 }
 
-item_train_view.toggle = function (player, entity)
+item_train_view.toggle = function(player, entity)
 	train_view.toggle(player, entity, item_type, view_name, selection_button_name)
 end
 
-item_train_view.clear = function (player)
+item_train_view.clear = function(player)
 	train_view.clear(player)
 end
 
-item_train_view.configure_train = function (player)
+item_train_view.configure_train = function(player)
 	train_view.configure_train(player)
 end
