@@ -1,15 +1,15 @@
 require("ui.dashboard")
-require("ui.fluid_station")
-require("ui.fluid_train")
-require("ui.item_station")
-require("ui.item_train")
+require("ui.fluid_station_view")
+require("ui.fluid_train_view")
+require("ui.item_station_view")
+require("ui.item_train_view")
 
 local function initialize_global_player(player)
 	global.train_city[player.index] = { elements = {}, entities = {} }
 end
 
 script.on_init(
-	function ()
+	function()
 		global.train_city = {}
 
 		for _, player in pairs(game.players) do
@@ -19,7 +19,7 @@ script.on_init(
 )
 
 script.on_configuration_changed(
-	function (config_changed_data)
+	function(config_changed_data)
 		if config_changed_data.mod_changes["train-city"] then
 			for _, player in pairs(game.players) do
 				dashboard.clear(player)
@@ -33,25 +33,25 @@ script.on_configuration_changed(
 )
 
 script.on_event(defines.events.on_player_created,
-	function (event)
+	function(event)
 		initialize_global_player(game.get_player(event.player_index))
 	end
 )
 
 script.on_event(defines.events.on_player_removed,
-	function (event)
+	function(event)
 		global.train_city[event.player_index] = nil
 	end
 )
 
 script.on_event("toggle_dashboard",
-	function (event)
+	function(event)
 		dashboard.toggle(game.get_player(event.player_index))
 	end
 )
 
 script.on_event(defines.events.on_gui_opened,
-	function (event)
+	function(event)
 		local player = game.get_player(event.player_index)
 
 		if event.gui_type == defines.gui_type.entity and event.entity then
@@ -69,7 +69,7 @@ script.on_event(defines.events.on_gui_opened,
 )
 
 script.on_event(defines.events.on_gui_closed,
-	function (event)
+	function(event)
 		local player = game.get_player(event.player_index)
 
 		if event.element then
@@ -89,7 +89,7 @@ script.on_event(defines.events.on_gui_closed,
 )
 
 script.on_event(defines.events.on_gui_elem_changed,
-	function (event)
+	function(event)
 		local player = game.get_player(event.player_index)
 
 		if event.element then
@@ -107,7 +107,7 @@ script.on_event(defines.events.on_gui_elem_changed,
 )
 
 script.on_event(defines.events.on_gui_switch_state_changed,
-	function (event)
+	function(event)
 		local player = game.get_player(event.player_index)
 
 		if event.element then
@@ -121,7 +121,7 @@ script.on_event(defines.events.on_gui_switch_state_changed,
 )
 
 script.on_event(defines.events.on_gui_click,
-	function (event)
+	function(event)
 		local player = game.get_player(event.player_index)
 
 		if event.element then
@@ -138,6 +138,14 @@ script.on_event(defines.events.on_gui_click,
 					item_train_view.toggle(player)
 				end
 			end
+		end
+	end
+)
+
+script.on_event(defines.events.on_train_schedule_changed,
+	function(event)
+		if event.train.locomotives.front_movers[1].name == "bwtc-transportation-train" then
+			train_behavior.evaluate_transportation_train_command(event.train)
 		end
 	end
 )

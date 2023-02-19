@@ -55,4 +55,5 @@ config/
 temp/
 wiki-type-mapping.json
 mods/mod-list.json
-.lock
+*.lock
+*.dmp
