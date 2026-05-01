@@ -1,0 +1,10 @@
+{
+  "name": "blue-dream",
+  "version": "0.0.1",
+  "title": "Blue Dream",
+  "author": "battenworks",
+  "factorio_version": "2.0",
+  "dependencies": ["base >= 2.0"],
+  "description": "Flying in a Blue Dream.",
+  "homepage": "https://github.com/battenworks/factorio"
+}
