@@ -114,7 +114,7 @@ end
 
 station_behavior.set_new_train_station_configuration = function(train_station, selected_item_name, item_type, selected_direction)
 	local control_behavior = train_station.get_or_create_control_behavior()
-	control_behavior.enable_disable = true
+	control_behavior.circuit_enable_disable = true
 	control_behavior.circuit_condition = build_circuit_condition(selected_item_name, item_type, selected_direction)
 
 	train_station.backer_name = selected_item_name .. " " .. selected_direction

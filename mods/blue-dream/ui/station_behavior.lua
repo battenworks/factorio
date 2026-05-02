@@ -26,7 +26,7 @@ end
 station_behavior.find_all_trains_associated_with_station = function(station_name)
 	local associated_trains = {}
 
-	for _, train in pairs(game.train_manager.get_trains(game.surfaces[1])) do
+	for _, train in pairs(game.train_manager.get_trains({ surface = game.surfaces[1] })) do
 		if train.schedule then
 			for _, record in pairs(train.schedule.records) do
 				if record.station == station_name then
@@ -114,7 +114,7 @@ end
 
 station_behavior.set_new_train_station_configuration = function(train_station, selected_item_name, item_type, selected_direction)
 	local control_behavior = train_station.get_or_create_control_behavior()
-	control_behavior.enable_disable = true
+	control_behavior.circuit_enable_disable = true
 	control_behavior.circuit_condition = build_circuit_condition(selected_item_name, item_type, selected_direction)
 
 	train_station.backer_name = selected_item_name .. " " .. selected_direction
