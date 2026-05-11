@@ -149,3 +149,19 @@ script.on_event(defines.events.on_train_schedule_changed,
 		end
 	end
 )
+
+script.on_event(defines.events.on_tick,
+	function(event)
+		if (event.tick % 30) ~= 0 then return end -- every 0.5s
+
+		for _, force in pairs(game.forces) do
+			local stations = game.train_manager.get_train_stops({ force = force, surface = "nauvis" })
+
+			for _, station in pairs(stations) do
+				if station.valid then
+					station_behavior.do_something(station)
+				end
+			end
+		end
+	end
+)

@@ -126,3 +126,8 @@ station_behavior.reassociate_trains_with_old_schedule = function(trains, schedul
 		train.schedule = schedule
 	end
 end
+
+station_behavior.do_something = function(station)
+	local station_type = station.name
+	local station_name = station.backer_name
+end
