@@ -5,23 +5,18 @@ require("ui.item_station_view")
 require("ui.item_train_view")
 
 local function initialize_storage_player(player)
+	if storage.blue_dream == nil then
+		storage.blue_dream = {}
+	end
+
 	storage.blue_dream[player.index] = { elements = {}, entities = {} }
 end
-
-script.on_init(
-	function()
-		storage.blue_dream = {}
-
-		for _, player in pairs(game.players) do
-			initialize_storage_player(player)
-		end
-	end
-)
 
 script.on_configuration_changed(
 	function(config_changed_data)
 		if config_changed_data.mod_changes["blue-dream"] then
 			for _, player in pairs(game.players) do
+				initialize_storage_player(player)
 				dashboard.clear(player)
 				fluid_station_view.clear(player)
 				fluid_train_view.clear(player)
@@ -47,6 +42,16 @@ script.on_event(defines.events.on_player_removed,
 script.on_event("toggle_dashboard",
 	function(event)
 		dashboard.toggle(game.get_player(event.player_index))
+	end
+)
+
+script.on_event(defines.events.on_tick,
+	function(event)
+		if (event.tick % 30) ~= 0 then
+			return
+		end
+
+		station_behavior.wee()
 	end
 )
 
@@ -152,14 +157,16 @@ script.on_event(defines.events.on_train_schedule_changed,
 
 script.on_event(defines.events.on_tick,
 	function(event)
-		if (event.tick % 30) ~= 0 then return end -- every 0.5s
+		if (event.tick % 30) ~= 0 then -- tick % 30 translates to every 0.5s
+			return
+		end
 
 		for _, force in pairs(game.forces) do
-			local stations = game.train_manager.get_train_stops({ force = force, surface = "nauvis" })
+			local nauvis_stations = game.train_manager.get_train_stops({ force = force, surface = "nauvis" })
 
-			for _, station in pairs(stations) do
-				if station.valid then
-					station_behavior.do_something(station)
+			for _, nauvis_station in pairs(nauvis_stations) do
+				if nauvis_station.valid then
+					station_behavior.evaluate_station_availability(nauvis_station)
 				end
 			end
 		end

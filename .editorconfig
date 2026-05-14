@@ -11,3 +11,6 @@ trim_trailing_whitespace = true
 
 [*.md]
 trim_trailing_whitespace = false
+
+[*.lua]
+max_line_length = 140

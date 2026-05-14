@@ -76,8 +76,7 @@ station_view.configure_train_station = function(player, item_type)
 	local storage_player = common.get_storage_player(player)
 	local storage_view = storage_player.elements.station_view
 	local train_station = storage_player.entities.station_entity
-	local selected_item_name = storage_view.main_container.selection_container[station_view.selection_button_name].elem_value
-		or "none"
+	local selected_item_name = storage_view.main_container.selection_container[station_view.selection_button_name].elem_value or "none"
 	local switch_direction = storage_view.main_container.direction_container[station_view.direction_switch_name].switch_state
 	local selected_direction = switch_direction == "left" and "drop" or "load"
 
