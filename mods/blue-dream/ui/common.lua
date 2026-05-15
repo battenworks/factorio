@@ -27,7 +27,7 @@ common.add_title_bar_to_view = function(title, view)
 	close_button.name = "close_button"
 	close_button.clicked_sprite = "utility/close_black"
 	close_button.hovered_sprite = "utility/close_black"
-	close_button.sprite = "utility/close_black"
-	close_button.style = "frame_action_button"
+	close_button.sprite = "utility/close"
+	close_button.style = "close_button"
 	close_button.tooltip = { "bwbd.close-button-caption" }
 end
