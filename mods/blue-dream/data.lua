@@ -10,7 +10,7 @@ data:extend({
 	{
 		type = "custom-input",
 		name = "toggle_dashboard",
-		key_sequence = "ALT + T",
+		key_sequence = "F8",
 		order = "a",
 	}
 })
