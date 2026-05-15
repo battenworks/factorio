@@ -24,7 +24,7 @@ local function new(player, storage_player)
 
 	local content_frame = main_window.add { type = "frame", direction = "vertical" }
 	content_frame.name = "content_frame"
-	-- content_frame.style = "inside_deep_frame_for_tabs"
+	content_frame.style = "inside_deep_frame"
 
 	local tabbed_pane = content_frame.add { type = "tabbed-pane" }
 	tabbed_pane.style = "bwbd_tabbed_pane"
