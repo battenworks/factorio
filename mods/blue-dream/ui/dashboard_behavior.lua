@@ -101,66 +101,68 @@ dashboard_behavior.build_potion_view_models = function(player)
 	return potion_view_models
 end
 
-local function find_attached_chest(station, item_name)
-	for _, circuit in pairs(station.circuit_connected_entities) do
-		for _, chest in pairs(circuit) do
-			if chest.name == item_name then
-				return chest
+local function get_item_count(station, item_name)
+	local item_count = "Unable to read station inventory"
+	
+	local green_signals = station.get_signals(defines.wire_connector_id.circuit_green)
+	if green_signals then
+		for _, signal in pairs(green_signals) do
+			if signal.signal.name == item_name then
+				item_count = signal.count
 			end
 		end
 	end
-end
 
-local function get_fuel_count(station)
-	local fuel_count = "Unable to read fuel inventory"
-	local chest = find_attached_chest(station, "logistic-chest-requester")
-
-	if chest then
-		fuel_count = chest.get_item_count("rocket-fuel")
+	local red_signals = station.get_signals(defines.wire_connector_id.circuit_red)
+	if red_signals then
+		for _, signal in pairs(red_signals) do
+			if signal.signal.name == item_name then
+				item_count = signal.count
+			end
+		end
 	end
 
-	return fuel_count
+	return item_count
 end
 
--- dashboard_behavior.build_fuel_station_view_models = function()
--- 	local fuel_station_view_models = {}
--- 	local fuel_stations = game.train_manager.get_train_stops({ name = "fuel" })
+dashboard_behavior.build_fuel_station_view_models = function()
+	local fuel_station_view_models = {}
+	
+	for _, force in pairs(game.forces) do
+		local nauvis_stations = game.train_manager.get_train_stops({ force = force, surface = "nauvis" })
+		
+		for _, nauvis_station in pairs(nauvis_stations) do
+			if nauvis_station.valid and nauvis_station.backer_name == "fuel" then
+				local fuel_station_view_model = {
+					name = nauvis_station.backer_name,
+					count = get_item_count(nauvis_station, "rocket-fuel"),
+				}
+				
+				table.insert(fuel_station_view_models, fuel_station_view_model)
+			end
+		end
+	end
+	
+	return fuel_station_view_models
+end
 
--- 	for _, station in pairs(fuel_stations) do
--- 		local fuel_station_view_model = {
--- 			name = station.backer_name,
--- 			count = get_fuel_count(station),
--- 		}
-
--- 		table.insert(fuel_station_view_models, fuel_station_view_model)
--- 	end
-
--- 	return fuel_station_view_models
--- end
-
--- local function get_ammo_count(station)
--- 	local ammo_count = "Unable to read ammo inventory"
--- 	local chest = find_attached_chest(station, "steel-chest")
-
--- 	if chest then
--- 		ammo_count = chest.get_item_count("uranium-rounds-magazine")
--- 	end
-
--- 	return ammo_count
--- end
-
--- dashboard_behavior.build_ammo_station_view_models = function()
--- 	local ammo_station_view_models = {}
--- 	local ammo_stations = game.train_manager.get_train_stops({ name = "ammo drop" })
-
--- 	for _, station in pairs(ammo_stations) do
--- 		local ammo_station_view_model = {
--- 			name = station.backer_name,
--- 			count = get_ammo_count(station),
--- 		}
-
--- 		table.insert(ammo_station_view_models, ammo_station_view_model)
--- 	end
-
--- 	return ammo_station_view_models
--- end
+dashboard_behavior.build_ammo_station_view_models = function()
+	local ammo_station_view_models = {}
+	
+	for _, force in pairs(game.forces) do
+		local nauvis_stations = game.train_manager.get_train_stops({ force = force, surface = "nauvis" })
+		
+		for _, nauvis_station in pairs(nauvis_stations) do
+			if nauvis_station.valid and nauvis_station.backer_name == "ammo drop" then
+				local ammo_station_view_model = {
+					name = nauvis_station.backer_name,
+					count = get_item_count(nauvis_station, "uranium-rounds-magazine"),
+				}
+				
+				table.insert(ammo_station_view_models, ammo_station_view_model)
+			end
+		end
+	end
+	 
+	return ammo_station_view_models
+end

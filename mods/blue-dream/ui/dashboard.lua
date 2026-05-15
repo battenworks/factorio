@@ -61,23 +61,23 @@ local function new(player, storage_player)
 		potion_view_model.add_view_model_to_table(view_model, potions_table)
 	end
 
-	-- local fuel_stations_scroll_pane = tabbed_pane.add { type = "scroll-pane", direction = "vertical" }
-	-- local fuel_stations_table = fuel_stations_scroll_pane.add { type = "table", column_count = 1 }
-	-- for _, view_model in pairs(dashboard_behavior.build_fuel_station_view_models()) do
-	-- 	fuel_station_view_model.add_view_model_to_table(view_model, fuel_stations_table)
-	-- end
+	local fuel_stations_scroll_pane = tabbed_pane.add { type = "scroll-pane", direction = "vertical" }
+	local fuel_stations_table = fuel_stations_scroll_pane.add { type = "table", column_count = 1 }
+	for _, view_model in pairs(dashboard_behavior.build_fuel_station_view_models()) do
+		fuel_station_view_model.add_view_model_to_table(view_model, fuel_stations_table)
+	end
 
-	-- local ammo_stations_scroll_pane = tabbed_pane.add { type = "scroll-pane", direction = "vertical" }
-	-- local ammo_stations_table = ammo_stations_scroll_pane.add { type = "table", column_count = 1 }
-	-- for _, view_model in pairs(dashboard_behavior.build_ammo_station_view_models()) do
-	-- 	ammo_station_view_model.add_view_model_to_table(view_model, ammo_stations_table)
-	-- end
+	local ammo_stations_scroll_pane = tabbed_pane.add { type = "scroll-pane", direction = "vertical" }
+	local ammo_stations_table = ammo_stations_scroll_pane.add { type = "table", column_count = 1 }
+	for _, view_model in pairs(dashboard_behavior.build_ammo_station_view_models()) do
+		ammo_station_view_model.add_view_model_to_table(view_model, ammo_stations_table)
+	end
 
 	tabbed_pane.add_tab(items_tab, items_scroll_pane)
 	tabbed_pane.add_tab(fluids_tab, fluids_scroll_pane)
 	tabbed_pane.add_tab(potions_tab, potions_table)
-	-- tabbed_pane.add_tab(fuel_stations_tab, fuel_stations_scroll_pane)
-	-- tabbed_pane.add_tab(ammo_tab, ammo_stations_scroll_pane)
+	tabbed_pane.add_tab(fuel_stations_tab, fuel_stations_scroll_pane)
+	tabbed_pane.add_tab(ammo_tab, ammo_stations_scroll_pane)
 end
 
 dashboard.toggle = function(player)
