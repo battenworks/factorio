@@ -17,10 +17,26 @@ end
 
 dashboard_behavior.build_item_view_models = function()
 	local item_view_models = {}
+	local item_stations = {}
+
+	local nauvis_stations = game.train_manager.get_train_stops({ surface = "nauvis" })
+	for _, nauvis_station in pairs(nauvis_stations) do
+		if nauvis_station.name == "bwbd-item-station" then
+			table.insert(item_stations, nauvis_station)
+		end
+	end
 
 	for _, item in pairs(prototypes.item) do
-		local load_stations = game.train_manager.get_train_stops({ name = item.name .. " load" })
-		local drop_stations = game.train_manager.get_train_stops({ name = item.name .. " drop" })
+		local load_stations = {}
+		local drop_stations = {}
+
+		for _, item_station in pairs(item_stations) do
+			if item_station.backer_name == item.name .. " load" then
+				table.insert(load_stations, item_station)
+			elseif item_station.backer_name == item.name .. " drop" then
+				table.insert(drop_stations, item_station)
+			end
+		end
 
 		if load_stations[1] or drop_stations[1] then
 			local item_view_model = {
@@ -41,10 +57,26 @@ end
 
 dashboard_behavior.build_fluid_view_models = function()
 	local fluid_view_models = {}
+	local fluid_stations = {}
+
+	local nauvis_stations = game.train_manager.get_train_stops({ surface = "nauvis" })
+	for _, nauvis_station in pairs(nauvis_stations) do
+		if nauvis_station.name == "bwbd-fluid-station" then
+			table.insert(fluid_stations, nauvis_station)
+		end
+	end
 
 	for _, fluid in pairs(prototypes.fluid) do
-		local load_stations = game.train_manager.get_train_stops({ name = fluid.name .. " load" })
-		local drop_stations = game.train_manager.get_train_stops({ name = fluid.name .. " drop" })
+		local load_stations = {}
+		local drop_stations = {}
+
+		for _, fluid_station in pairs(fluid_stations) do
+			if fluid_station.backer_name == fluid.name .. " load" then
+				table.insert(load_stations, fluid_station)
+			elseif fluid_station.backer_name == fluid.name .. " drop" then
+				table.insert(drop_stations, fluid_station)
+			end
+		end
 
 		if load_stations[1] or drop_stations[1] then
 			local fluid_view_model = {
@@ -103,7 +135,7 @@ end
 
 local function get_item_count(station, item_name)
 	local item_count = "Unable to read station inventory"
-	
+
 	local green_signals = station.get_signals(defines.wire_connector_id.circuit_green)
 	if green_signals then
 		for _, signal in pairs(green_signals) do
@@ -127,42 +159,36 @@ end
 
 dashboard_behavior.build_fuel_station_view_models = function()
 	local fuel_station_view_models = {}
-	
-	for _, force in pairs(game.forces) do
-		local nauvis_stations = game.train_manager.get_train_stops({ force = force, surface = "nauvis" })
-		
-		for _, nauvis_station in pairs(nauvis_stations) do
-			if nauvis_station.valid and nauvis_station.backer_name == "fuel" then
-				local fuel_station_view_model = {
-					name = nauvis_station.backer_name,
-					count = get_item_count(nauvis_station, "rocket-fuel"),
-				}
-				
-				table.insert(fuel_station_view_models, fuel_station_view_model)
-			end
+
+	local nauvis_stations = game.train_manager.get_train_stops({ surface = "nauvis" })
+	for _, nauvis_station in pairs(nauvis_stations) do
+		if nauvis_station.valid and nauvis_station.backer_name == "fuel" then
+			local fuel_station_view_model = {
+				name = nauvis_station.backer_name,
+				count = get_item_count(nauvis_station, "rocket-fuel"),
+			}
+
+			table.insert(fuel_station_view_models, fuel_station_view_model)
 		end
 	end
-	
+
 	return fuel_station_view_models
 end
 
 dashboard_behavior.build_ammo_station_view_models = function()
 	local ammo_station_view_models = {}
-	
-	for _, force in pairs(game.forces) do
-		local nauvis_stations = game.train_manager.get_train_stops({ force = force, surface = "nauvis" })
-		
-		for _, nauvis_station in pairs(nauvis_stations) do
-			if nauvis_station.valid and nauvis_station.backer_name == "ammo drop" then
-				local ammo_station_view_model = {
-					name = nauvis_station.backer_name,
-					count = get_item_count(nauvis_station, "uranium-rounds-magazine"),
-				}
-				
-				table.insert(ammo_station_view_models, ammo_station_view_model)
-			end
+
+	local nauvis_stations = game.train_manager.get_train_stops({ surface = "nauvis" })
+	for _, nauvis_station in pairs(nauvis_stations) do
+		if nauvis_station.valid and nauvis_station.backer_name == "ammo drop" then
+			local ammo_station_view_model = {
+				name = nauvis_station.backer_name,
+				count = get_item_count(nauvis_station, "uranium-rounds-magazine"),
+			}
+
+			table.insert(ammo_station_view_models, ammo_station_view_model)
 		end
 	end
-	 
+
 	return ammo_station_view_models
 end

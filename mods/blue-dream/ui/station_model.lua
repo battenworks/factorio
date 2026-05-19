@@ -1,24 +1,6 @@
 station_model = {}
 
-station_model.new = function(station)
-    local item = {
-        type = get_item_type(station.name)
-    }
-
-    local item_name, stack_size, load_direction = parse_backer_name(station.backer_name, item.type)
-    item.name = item_name
-    item.stack_size = stack_size
-
-    return {
-        item = item,
-        capacity = get_station_capacity(item),
-        load_direction = load_direction,
-        inventory = get_item_count(station, item),
-        train_capacity = get_train_capacity(item),
-    }
-end
-
-function get_item_type(station_name)
+local function get_item_type(station_name)
     if station_name == "bwbd-item-station" then
         return "item"
     end
@@ -26,7 +8,7 @@ function get_item_type(station_name)
     return "fluid"
 end
 
-function parse_backer_name(backer_name, item_type)
+local function parse_backer_name(backer_name, item_type)
     item_name = nil
     stack_size = 0
     local words = {}
@@ -51,7 +33,19 @@ function parse_backer_name(backer_name, item_type)
     return item_name, stack_size, words[2]
 end
 
-function get_item_count(station, item)
+local function get_station_capacity(item)
+    local station_capacity = 0
+
+    if item.type == "item" then
+        station_capacity = item.stack_size * 48 * 12
+    elseif item.type == "fluid" then
+        station_capacity = 150000
+    end
+
+    return station_capacity
+end
+
+local function get_item_count(station, item)
     local item_count = 0
 
     local green_signals = station.get_signals(defines.wire_connector_id.circuit_green)
@@ -77,7 +71,7 @@ function get_item_count(station, item)
     return item_count
 end
 
-function get_train_capacity(item)
+local function get_train_capacity(item)
     local train_capacity = 0
 
     if item.type == "item" then
@@ -89,14 +83,20 @@ function get_train_capacity(item)
     return train_capacity
 end
 
-function get_station_capacity(item)
-    local station_capacity = 0
+station_model.new = function(station)
+    local item = {
+        type = get_item_type(station.name)
+    }
 
-    if item.type == "item" then
-        station_capacity = item.stack_size * 48 * 12
-    elseif item.type == "fluid" then
-        station_capacity = 150000
-    end
+    local item_name, stack_size, load_direction = parse_backer_name(station.backer_name, item.type)
+    item.name = item_name
+    item.stack_size = stack_size
 
-    return station_capacity
+    return {
+        item = item,
+        capacity = get_station_capacity(item),
+        load_direction = load_direction,
+        inventory = get_item_count(station, item),
+        train_capacity = get_train_capacity(item),
+    }
 end

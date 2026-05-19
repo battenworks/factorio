@@ -5,10 +5,8 @@ require("ui.item_station_view")
 require("ui.item_train_view")
 
 local function initialize_storage_player(player)
-	if storage.blue_dream == nil then
-		storage.blue_dream = {}
-	end
-
+	storage.bwbd_stations = storage.bwbd_stations or {}
+	storage.blue_dream = storage.blue_dream or {}
 	storage.blue_dream[player.index] = { elements = {}, entities = {} }
 end
 
@@ -42,16 +40,6 @@ script.on_event(defines.events.on_player_removed,
 script.on_event("toggle_dashboard",
 	function(event)
 		dashboard.toggle(game.get_player(event.player_index))
-	end
-)
-
-script.on_event(defines.events.on_tick,
-	function(event)
-		if (event.tick % 30) ~= 0 then
-			return
-		end
-
-		station_behavior.wee()
 	end
 )
 
@@ -161,14 +149,47 @@ script.on_event(defines.events.on_tick,
 			return
 		end
 
-		for _, force in pairs(game.forces) do
-			local nauvis_stations = game.train_manager.get_train_stops({ force = force, surface = "nauvis" })
-
-			for _, nauvis_station in pairs(nauvis_stations) do
-				if nauvis_station.valid then
-					station_behavior.evaluate_station_availability(nauvis_station)
-				end
+		for _, bwbd_station in pairs(storage.bwbd_stations) do
+			if bwbd_station.valid then
+				station_behavior.evaluate_station_availability(bwbd_station)
 			end
+		end
+	end
+)
+
+local function is_bwbd_station(entity)
+	return entity.name == "bwbd-item-station" or entity.name == "bwbd-fluid-station"
+end
+
+local function add_bwbd_station(entity)
+	storage.bwbd_stations[entity.unit_number] = entity
+end
+
+script.on_event({
+		defines.events.on_built_entity,
+		defines.events.on_robot_built_entity,
+		defines.events.script_raised_built
+	},
+	function(event)
+		if is_bwbd_station(event.entity) then
+			add_bwbd_station(event.entity)
+		end
+	end
+)
+
+local function remove_bwbd_station(entity)
+	storage.bwbd_stations[entity.unit_number] = nil
+end
+
+script.on_event({
+		defines.events.on_player_mined_entity,
+		defines.events.on_robot_mined_entity,
+		defines.events.on_entity_died,
+		defines.events.script_raised_destroy
+	},
+	function(event)
+		if is_bwbd_station(event.entity) then
+			remove_bwbd_station(event.entity)
 		end
 	end
 )

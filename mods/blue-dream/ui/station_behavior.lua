@@ -52,11 +52,15 @@ station_behavior.reassociate_trains_with_old_schedule = function(trains, schedul
 	end
 end
 
-station_behavior.evaluate_station_availability = function(station)
-	if station.name ~= "bwbd-item-station" and station.name ~= "bwbd-fluid-station" then
-		return
-	end
+local function station_can_supply_train_load(station_model)
+	return station_model.inventory > station_model.train_capacity
+end
 
+local function station_can_accept_train_load(station_model)
+	return station_model.capacity - station_model.inventory > station_model.train_capacity
+end
+
+station_behavior.evaluate_station_availability = function(station)
 	local station_model = station_model.new(station)
 
 	if station_model.load_direction == "load" then
@@ -72,12 +76,4 @@ station_behavior.evaluate_station_availability = function(station)
 			station.trains_limit = 0
 		end
 	end
-end
-
-function station_can_supply_train_load(station_model)
-	return station_model.inventory > station_model.train_capacity
-end
-
-function station_can_accept_train_load(station_model)
-	return station_model.capacity - station_model.inventory > station_model.train_capacity
 end
