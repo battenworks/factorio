@@ -77,7 +77,7 @@ local function get_train_capacity(item)
     if item.type == "item" then
         train_capacity = item.stack_size * 40 * 2
     elseif item.type == "fluid" then
-        train_capacity = 50000
+        train_capacity = 50000 * 2
     end
 
     return train_capacity
