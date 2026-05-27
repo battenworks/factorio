@@ -53,13 +53,13 @@ train_behavior.evaluate_transportation_train_command = function(train)
 	if not next(train.passengers) then
 		-- add a rail record and wait condition before the original record
 		if train.schedule and train.schedule.records and train.schedule.records[1].wait_conditions then
-			if train.schedule.records[1].rail ~= train.front_rail then
+			if train.schedule.records[1].rail ~= train.front_end.rail then
 				local destination = find_next_rail(train)
 				local new_schedule = {
 					current = 1,
 					records = {
 						{
-							rail = train.front_rail,
+							rail = train.front_end.rail,
 							temporary = true,
 							wait_conditions = {
 								{
