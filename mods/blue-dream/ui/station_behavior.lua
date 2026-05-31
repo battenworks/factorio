@@ -2,6 +2,35 @@ require("ui.station_model")
 
 station_behavior = {}
 
+-- Priority management: store chosen priority stations per backer_name in global storage
+station_behavior.is_station_priority = function(entity)
+	if not (entity and entity.valid) then
+		return false
+	end
+
+	storage.blue_dream_station_priorities = storage.blue_dream_station_priorities or {}
+	local priority_unit = storage.blue_dream_station_priorities[entity.backer_name]
+
+	return priority_unit == entity.unit_number
+end
+
+station_behavior.set_station_priority = function(entity, state)
+	if not (entity and entity.valid) then
+		return
+	end
+
+	storage.blue_dream_station_priorities = storage.blue_dream_station_priorities or {}
+	local key = entity.backer_name
+
+	if state then
+		storage.blue_dream_station_priorities[key] = entity.unit_number
+	else
+		if storage.blue_dream_station_priorities[key] == entity.unit_number then
+			storage.blue_dream_station_priorities[key] = nil
+		end
+	end
+end
+
 station_behavior.parse_selection_and_direction = function(backer_name, item_type)
 	selected_item = nil
 	local words = {}
@@ -75,5 +104,13 @@ station_behavior.evaluate_station_availability = function(station)
 		else
 			station.trains_limit = 0
 		end
+	end
+
+	-- If a priority station was chosen for this backer_name, always allow one train to target it
+	storage.blue_dream_station_priorities = storage.blue_dream_station_priorities or {}
+	local priority_unit = storage.blue_dream_station_priorities[station.backer_name]
+
+	if priority_unit and station.unit_number == priority_unit then
+		station.trains_limit = 1
 	end
 end

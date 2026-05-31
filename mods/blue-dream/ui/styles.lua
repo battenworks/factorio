@@ -62,6 +62,12 @@ styles["bwbd_station_direction_container"] = {
 	vertical_align = "center",
 }
 
+styles["bwbd_station_priority_container"] = {
+	type = "horizontal_flow_style",
+	vertical_align = "center",
+	top_margin = 5,
+}
+
 styles["bwbd_train_selection_container"] = {
 	type = "horizontal_flow_style",
 	margin = 12,

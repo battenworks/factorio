@@ -14,8 +14,7 @@ local function new(player, storage_player, entity, item_type, view_name, button_
 	storage_player.elements.train_view = main_window
 	storage_player.entities.train_entity = entity.train
 
-	local title_bar_caption = { "entity-name.bwbd-" .. item_type .. "-train" }
-	common.add_title_bar_to_view(title_bar_caption, main_window)
+	common.add_title_bar_to_view({ "entity-name.bwbd-" .. item_type .. "-train" }, main_window)
 
 	local main_container = main_window.add { type = "frame", direction = "vertical" }
 	main_container.name = "main_container"

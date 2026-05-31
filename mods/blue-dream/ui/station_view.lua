@@ -6,45 +6,86 @@ station_view = {}
 local function new(player, storage_player, entity, item_type, view_name, button_name, switch_name)
 	local selected_item, selected_direction = station_behavior.parse_selection_and_direction(entity.backer_name, item_type)
 
-	local main_window = player.gui.screen.add { type = "frame", direction = "vertical" }
-	main_window.name = view_name
+	local main_window = player.gui.screen.add {
+		type = "frame",
+		name = view_name,
+		direction = "vertical",
+	}
 	main_window.auto_center = true
 
 	player.opened = main_window
 	storage_player.elements.station_view = main_window
 	storage_player.entities.station_entity = entity
 
-	local title_bar_caption = { "entity-name.bwbd-" .. item_type .. "-station" }
-	common.add_title_bar_to_view(title_bar_caption, main_window)
+	common.add_title_bar_to_view({ "entity-name.bwbd-" .. item_type .. "-station" }, main_window)
 
-	local main_container = main_window.add { type = "frame", direction = "vertical" }
-	main_container.name = "main_container"
-	main_container.style = "inside_shallow_frame_with_padding"
+	local main_container = main_window.add {
+		type = "frame",
+		name = "main_container",
+		direction = "vertical",
+		style = "inside_shallow_frame_with_padding",
+	}
 
-	local selection_container = main_container.add { type = "flow", direction = "horizontal" }
-	selection_container.name = "selection_container"
-	selection_container.style = "bwbd_station_selection_container"
+	local selection_container = main_container.add {
+		type = "flow",
+		name = "selection_container",
+		direction = "horizontal",
+		style = "bwbd_station_selection_container",
+	}
 
-	local selection_label = selection_container.add { type = "label" }
-	selection_label.caption = { "bwbd." .. item_type .. "-caption" }
+	selection_container.add {
+		type = "label",
+		caption = { "bwbd." .. item_type .. "-caption" },
+	}
 
-	local choose_item_button = selection_container.add { type = "choose-elem-button", elem_type = item_type }
-	choose_item_button.name = button_name
+	local choose_item_button = selection_container.add {
+		type = "choose-elem-button",
+		name = button_name,
+		elem_type = item_type,
+	}
 	choose_item_button.elem_value = selected_item
 
-	local direction_container = main_container.add { type = "flow", direction = "horizontal" }
-	direction_container.name = "direction_container"
-	direction_container.style = "bwbd_station_direction_container"
+	local direction_container = main_container.add {
+		type = "flow",
+		name = "direction_container",
+		direction = "horizontal",
+		style = "bwbd_station_direction_container",
+	}
 
-	local direction_drop_label = direction_container.add { type = "label" }
-	direction_drop_label.caption = { "bwbd.drop-caption" }
+	direction_container.add {
+		type = "label",
+		caption = { "bwbd.drop-caption" },
+	}
 
-	local direction_switch = direction_container.add { type = "switch" }
-	direction_switch.name = switch_name
-	direction_switch.switch_state = selected_direction
+	direction_container.add {
+		type = "switch",
+		name = switch_name,
+		switch_state = selected_direction,
+	}
 
-	local direction_load_label = direction_container.add { type = "label" }
-	direction_load_label.caption = { "bwbd.load-caption" }
+	direction_container.add {
+		type = "label",
+		caption = { "bwbd.load-caption" },
+	}
+
+	local priority_container = main_container.add {
+		type = "flow",
+		name = "priority_container",
+		direction = "horizontal",
+		style = "bwbd_station_priority_container",
+	}
+
+	priority_container.add {
+		type = "label",
+		caption = { "bwbd.priority-caption" },
+	}
+
+	priority_container.add {
+		type = "checkbox",
+		name = "priority_checkbox",
+		state = station_behavior.is_station_priority(entity),
+		tooltip = { "bwbd.priority-tooltip" },
+	}
 end
 
 station_view.toggle = function(player, entity, item_type, view_name, button_name, switch_name)

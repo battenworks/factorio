@@ -3,6 +3,7 @@ require("ui.fluid_station_view")
 require("ui.fluid_train_view")
 require("ui.item_station_view")
 require("ui.item_train_view")
+require("ui.station_behavior")
 
 local function initialize_storage_player(player)
 	storage.bwbd_stations = storage.bwbd_stations or {}
@@ -129,6 +130,27 @@ script.on_event(defines.events.on_gui_click,
 					item_station_view.toggle(player)
 				elseif event.element.parent.parent.name == item_train_view.name then
 					item_train_view.toggle(player)
+				end
+			end
+		end
+	end
+)
+
+script.on_event(defines.events.on_gui_checked_state_changed,
+	function(event)
+		local player = game.get_player(event.player_index)
+
+		if event.element and event.element.name == "priority_checkbox" then
+			local storage_player = common.get_storage_player(player)
+			local train_station = storage_player.entities.station_entity
+			if train_station then
+				station_behavior.set_station_priority(train_station, event.element.state)
+
+				-- Immediately re-evaluate availability for stations with the same backer_name
+				for _, bwbd_station in pairs(storage.bwbd_stations) do
+					if bwbd_station.valid and bwbd_station.backer_name == train_station.backer_name then
+						station_behavior.evaluate_station_availability(bwbd_station)
+					end
 				end
 			end
 		end
