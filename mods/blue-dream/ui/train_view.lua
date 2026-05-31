@@ -10,6 +10,7 @@ local function new(player, storage_player, entity, item_type, view_name, button_
 	main_window.name = view_name
 	main_window.auto_center = true
 
+	player.opened = nil
 	player.opened = main_window
 	storage_player.elements.train_view = main_window
 	storage_player.entities.train_entity = entity.train
