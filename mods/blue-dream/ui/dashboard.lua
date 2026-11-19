@@ -56,7 +56,8 @@ local function new(player, storage_player)
 		item_view_model.add_view_model_to_table(view_model, fluids_table)
 	end
 
-	local potions_table = tabbed_pane.add { type = "table", column_count = 1 }
+	local potions_scroll_pane = tabbed_pane.add { type = "scroll-pane", direction = "vertical" }
+	local potions_table = potions_scroll_pane.add { type = "table", column_count = 1 }
 	for _, view_model in pairs(dashboard_behavior.build_potion_view_models(player)) do
 		potion_view_model.add_view_model_to_table(view_model, potions_table)
 	end
@@ -75,7 +76,7 @@ local function new(player, storage_player)
 
 	tabbed_pane.add_tab(items_tab, items_scroll_pane)
 	tabbed_pane.add_tab(fluids_tab, fluids_scroll_pane)
-	tabbed_pane.add_tab(potions_tab, potions_table)
+	tabbed_pane.add_tab(potions_tab, potions_scroll_pane)
 	tabbed_pane.add_tab(fuel_stations_tab, fuel_stations_scroll_pane)
 	tabbed_pane.add_tab(ammo_tab, ammo_stations_scroll_pane)
 end

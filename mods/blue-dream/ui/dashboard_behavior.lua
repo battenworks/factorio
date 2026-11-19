@@ -109,8 +109,8 @@ dashboard_behavior.build_potion_view_models = function(player)
 			mode = "and"
 		},
 		{
-			filter = "type",
-			type = "tool",
+			filter = "used-by-labs",
+			used_by_labs = true,
 			mode = "and"
 		}
 	})
